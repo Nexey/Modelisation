@@ -3,7 +3,7 @@
 #include "../Graphe/Maillon.h"
 #include "../Main/Erreur.h"
 #include "../Graphe/Sommet.h"
-#include "../Graphe/Arete.h"
+#include "../Graphe/Arc.h"
 
 template<class Ar, class So>
 class Graphe
@@ -13,12 +13,12 @@ protected:
 	
 public:
 	Maillon< Sommet<So> > * 	lSommets;
-	Maillon< Arete<Ar, So> > *	lAretes;
+	Maillon< Arc<Ar, So> > *	lArcs;
 	
 #pragma region CREATIONS
 public:
 	//Constructeurs
-	Graphe() : prochaineClef(0), lSommets(NULL), lAretes(NULL) {}
+	Graphe() : prochaineClef(0), lSommets(NULL), lArcs(NULL) {}
 	Graphe(const Graphe<Ar, So> & graphe) : Graphe() { this->copie(graphe); }
 
 	//Destructeur
@@ -43,25 +43,25 @@ public:
 	Sommet<So> * creeSommet( const So & info) { return creeSommet1( prochaineClef++, info); }
 #pragma endregion
 	
-#pragma region ARETES
+#pragma region ARCS
 private:
 	/*Ne met pas a jour la clé car elle est à chaque fois
 	* mise à jours avant l'appel de cette fonction.
 	* Met quand même à jours le sommet debut et fin.*/
-	Arete<Ar, So> * creeArete1(const int clef, const Ar & info, Sommet<So> * debut, Sommet<So> * fin);
+	Arc<Ar, So> * creeArc1(const int clef, const Ar & info, Sommet<So> * debut, Sommet<So> * fin);
 
 public:
-	Arete<Ar, So> * creeArete(const Ar & info, Sommet<So> * debut, Sommet<So> * fin) { return creeArete1(prochaineClef++, info, debut, fin); }
+	Arc<Ar, So> * creeArc(const Ar & info, Sommet<So> * debut, Sommet<So> * fin) { return creeArc1(prochaineClef++, info, debut, fin); }
 #pragma endregion
 	
 #pragma region COPIE
 	/*Au départ, le graphe this est vide.
-	* Crée une copie de chaques sommets et chaques aretes.*/
+	* Crée une copie de chaques sommets et chaques arcs.*/
 	void copie(const Graphe<Ar, So> & graphe);
 
 	Sommet<So> * creeSommet(const int clef, const So & info) { majProchaineClef(clef); return creeSommet1(clef, info); }
 
-	Arete<Ar, So> * creeArete(const int clef, const Ar & info, Sommet<So> * debut, Sommet<So> * fin) {	majProchaineClef(clef);	return creeArete1(clef, info, debut, fin); }
+	Arc<Ar, So> * creeArc(const int clef, const Ar & info, Sommet<So> * debut, Sommet<So> * fin) {	majProchaineClef(clef);	return creeArc1(clef, info, debut, fin); }
 	
 	/*Utilisé par l'operateur = et par le destructeur*/
 	void effaceTout();
@@ -72,32 +72,18 @@ public:
 #pragma region CONSULTATION
 	//simple
 	int nombreSommets() const { return Maillon< Sommet<So> >::taille(lSommets); }
-	int nombreAretes() const { return Maillon< Arete<Ar, So> >::taille(lAretes); }
+	int nombreArcs() const { return Maillon< Arc<Ar, So> >::taille(lArcs); }
 
 	//compliqué
-	Maillon< pair< Sommet<So> *, Arete<Ar, So>* > > *	adjacences(const Sommet<So> * sommet) const;
-	Maillon< Arete<Ar, So> > *							aretesAdjacentes(const Sommet<So> * sommet) const;
+	Maillon< pair< Sommet<So> *, Arc<Ar, So>* > > *	adjacences(const Sommet<So> * sommet) const;
+	Maillon< Arc<Ar, So> > *							arcsAdjacents(const Sommet<So> * sommet) const;
 	Maillon< Sommet<So> > *							voisins(const Sommet<So> * sommet) const;
 
-	/*Recherche une arete à partir d'un sommet (debut et fin confondu)*/
-	Arete<Ar, So> * getAreteParSommets(const Sommet<So> * s1, const Sommet<So> * s2) const;
+	/*Recherche un arc à partir d'un sommet (debut et fin confondu)*/
+	Arc<Ar, So> * getArcParSommets(const Sommet<So> * s1, const Sommet<So> * s2) const;
 
 	//OPERATORS
 	operator string() const;
-#pragma endregion
-
-#pragma region DESSIN(visiteur)
-	/*Dessine d'abord les aretes, puis les sommets.
-	* Renvoie True seulement en cas de succès complet.
-	**/
-	template< class FENETRE>
-	bool dessineToutesAretes(FENETRE & fenetre) const;
-
-	template< class FENETRE>
-	bool dessineTousSommets(FENETRE & fenetre) const;
-
-	template  <class FENETRE>
-	bool dessine(FENETRE & fenetre) const;
 #pragma endregion
 };
 
@@ -115,9 +101,9 @@ Graphe<Ar, So>::operator string() const
 
 	oss << Maillon<Sommet<So> >::toString(lSommets, "", "\n", "\n");
 
-	oss << "nombre d'aretes = " << this->nombreAretes() << "\n";
+	oss << "nombre d'arcs = " << this->nombreArcs() << "\n";
 
-	oss << Maillon<Arete<Ar, So> >::toString(lAretes, "", "\n", "\n");
+	oss << Maillon<Arc<Ar, So> >::toString(lArcs, "", "\n", "\n");
 	oss << ")";
 	return oss.str();
 }
@@ -126,7 +112,7 @@ Graphe<Ar, So>::operator string() const
 template <class Ar, class So>
 void Graphe<Ar, So>::effaceTout()
 {
-	Maillon< Arete<Ar, So>>::efface2(this->lAretes);
+	Maillon< Arc<Ar, So>>::efface2(this->lArcs);
 	Maillon<Sommet<So> >::efface2(this->lSommets);
 	this->prochaineClef = 0;
 }
@@ -144,17 +130,17 @@ Sommet<So> * Graphe<Ar, So>::creeSommet1(const int clef, const So & info)
 
 
 template <class Ar, class So>
-Arete<Ar, So> * Graphe<Ar, So>::creeArete1(const int clef, const Ar & info, Sommet<So> * debut, Sommet<So> * fin)
+Arc<Ar, So> * Graphe<Ar, So>::creeArc1(const int clef, const Ar & info, Sommet<So> * debut, Sommet<So> * fin)
 {
 	// ici tester que les 2 sommets sont bien existants dans le graphe
-	if (!Maillon< Sommet<So> >::appartient(debut, lSommets)) throw Erreur("debut d'arete non defini");
-	if (!Maillon< Sommet<So> >::appartient(fin, lSommets)) throw Erreur("fin d'arete non definie");
+	if (!Maillon< Sommet<So> >::appartient(debut, lSommets)) throw Erreur("debut d'arc non defini");
+	if (!Maillon< Sommet<So> >::appartient(fin, lSommets)) throw Erreur("fin d'arc non definie");
 
-	Arete<Ar, So> *  nouvelleArete = new Arete<Ar, So>(clef, info, debut, fin);
+	Arc<Ar, So> *  nouvelArc = new Arc<Ar, So>(clef, info, debut, fin);
 
-	lAretes = new Maillon< Arete<Ar, So> >(nouvelleArete, lAretes);
+	lArcs = new Maillon< Arc<Ar, So> >(nouvelArc, lArcs);
 
-	return nouvelleArete;
+	return nouvelArc;
 }
 #pragma endregion
 
@@ -186,16 +172,16 @@ void Graphe<Ar, So>::copie(const Graphe<Ar, So> & graphe)
 	}
 
 
-	// -------------------- et maintenant on recopie les aretes --------------------
+	// -------------------- et maintenant on recopie les arcs --------------------
 
-	// attention, la recopie des aretes est plus compliquee car il faut rebrancher les aretes sur les nouveaux sommets qui viennent d'etre crees.
+	// attention, la recopie des arcs est plus compliquee car il faut rebrancher les arcs sur les nouveaux sommets qui viennent d'etre crees.
 	// Pour retrouver les "bons sommets" on utilise les clefs qui ont ete conservees
 
-	const Maillon<Arete<Ar, So>> * pA;
-	for (pA = graphe.lAretes; pA; pA = pA->s)
+	const Maillon<Arc<Ar, So>> * pA;
+	for (pA = graphe.lArcs; pA; pA = pA->s)
 	{
-		const Arete<Ar, So> * a = pA->v;			// arete courante a recopier
-		Sommet<So> * d, *f;						// le debut et la fin de la nouvelle arete qui va etre creee
+		const Arc<Ar, So> * a = pA->v;			// arc courante a recopier
+		Sommet<So> * d, *f;						// le debut et la fin de le nouvel arc qui va etre creee
 		Maillon< Sommet<So> > * p;
 
 		// on recherche d dans la nouvelle liste de sommets grace a sa clef
@@ -208,7 +194,7 @@ void Graphe<Ar, So>::copie(const Graphe<Ar, So> & graphe)
 		p = Maillon< Sommet<So> >::appartient(lSommets, conditionFin);
 		f = p->v;
 
-		this->creeArete(a->clef, a->v, d, f);
+		this->creeArc(a->clef, a->v, d, f);
 	}
 }
 
@@ -217,36 +203,36 @@ void Graphe<Ar, So>::copie(const Graphe<Ar, So> & graphe)
 
 #pragma region CONSULTATION
 template <class Ar, class So>
-Maillon< pair< Sommet<So> *, Arete<Ar, So>* > >  *  Graphe<Ar, So>::adjacences(const Sommet<So> * sommet) const
+Maillon< pair< Sommet<So> *, Arc<Ar, So>* > >  *  Graphe<Ar, So>::adjacences(const Sommet<So> * sommet) const
 {
-	const Maillon< Arete<Ar, So> > * l;
+	const Maillon< Arc<Ar, So> > * l;
 
-	Maillon< pair< Sommet<So> *, Arete<Ar, So>* > > * r;				// pair< Sommet<So> *, Arete<Ar,So>* >
+	Maillon< pair< Sommet<So> *, Arc<Ar, So>* > > * r;				// pair< Sommet<So> *, Arc<Ar,So>* >
 
-	for (l = lAretes, r = NULL; l; l = l->s)
+	for (l = lArcs, r = NULL; l; l = l->s)
 
 		if (sommet == l->v->debut)
-			r = new Maillon< pair< Sommet<So> *, Arete<Ar, So>* > >(new pair< Sommet<So> *, Arete<Ar, So>* >(l->v->fin, l->v), r);
+			r = new Maillon< pair< Sommet<So> *, Arc<Ar, So>* > >(new pair< Sommet<So> *, Arc<Ar, So>* >(l->v->fin, l->v), r);
 		else
 			if (sommet == l->v->fin)
-				r = new Maillon< pair< Sommet<So> *, Arete<Ar, So>* > >(new pair< Sommet<So> *, Arete<Ar, So>* >(l->v->debut, l->v), r);
+				r = new Maillon< pair< Sommet<So> *, Arc<Ar, So>* > >(new pair< Sommet<So> *, Arc<Ar, So>* >(l->v->debut, l->v), r);
 
 	return r;
 }
 
 
 template <class Ar, class So>
-Maillon< Arete<Ar, So> > *  Graphe<Ar, So>::aretesAdjacentes(const Sommet<So> * sommet) const
+Maillon< Arc<Ar, So> > *  Graphe<Ar, So>::arcsAdjacents(const Sommet<So> * sommet) const
 {
-	Maillon< pair< Sommet<So> *, Arete<Ar, So>* > > * ladj = this->adjacences(sommet);
-	Maillon< pair< Sommet<So> *, Arete<Ar, So>* > > * l;
+	Maillon< pair< Sommet<So> *, Arc<Ar, So>* > > * ladj = this->adjacences(sommet);
+	Maillon< pair< Sommet<So> *, Arc<Ar, So>* > > * l;
 
-	Maillon< Arete<Ar, So> > * r;
+	Maillon< Arc<Ar, So> > * r;
 
 	for (l = ladj, r = NULL; l; l = l->s)
-		r = new Maillon< Arete<Ar, So> >(l->v->second, r);
+		r = new Maillon< Arc<Ar, So> >(l->v->second, r);
 
-	Maillon< pair< Sommet<So> *, Arete<Ar, So>* > >::efface2(ladj);
+	Maillon< pair< Sommet<So> *, Arc<Ar, So>* > >::efface2(ladj);
 
 	return r;
 }
@@ -255,80 +241,28 @@ Maillon< Arete<Ar, So> > *  Graphe<Ar, So>::aretesAdjacentes(const Sommet<So> * 
 template <class Ar, class So>
 Maillon< Sommet<So> > *  Graphe<Ar, So>::voisins(const Sommet<So> * sommet) const
 {
-	Maillon< pair< Sommet<So> *, Arete<Ar, So>* > > * ladj = this->adjacences(sommet);
-	Maillon< pair< Sommet<So> *, Arete<Ar, So>* > > * l;
+	Maillon< pair< Sommet<So> *, Arc<Ar, So>* > > * ladj = this->adjacences(sommet);
+	Maillon< pair< Sommet<So> *, Arc<Ar, So>* > > * l;
 
 	Maillon< Sommet<So> > * r;
 
 	for (l = ladj, r = NULL; l; l = l->s)
 		r = new Maillon< Sommet<So> >(l->v->first, r);
 
-	Maillon< pair< Sommet<So> *, Arete<Ar, So>* > >::efface2(ladj);
+	Maillon< pair< Sommet<So> *, Arc<Ar, So>* > >::efface2(ladj);
 
 	return r;
 }
 
 template <class Ar, class So>
-Arete<Ar, So> * Graphe<Ar, So>::getAreteParSommets(const Sommet<So> * s1, const Sommet<So> * s2) const
+Arc<Ar, So> * Graphe<Ar, So>::getArcParSommets(const Sommet<So> * s1, const Sommet<So> * s2) const
 {
-	Maillon<Arete<Ar, So> > * l;
+	Maillon<Arc<Ar, So> > * l;
 
-	for (l = this->lAretes; l; l = l->s)
+	for (l = this->lArcs; l; l = l->s)
 		if (l->v->estEgal(s1, s2))
 			return l->v;
 
 	return NULL;
-}
-#pragma endregion
-
-#pragma region DESSIN
-template <class Ar, class So>
-template< class FENETRE>
-bool Graphe<Ar, So>::dessine(FENETRE & fenetre) const
-{
-
-	if (!this->dessineToutesAretes(fenetre)) return false;
-	
-	return this->dessineTousSommets(fenetre);
-}
-
-
-template <class Ar, class So>
-template< class FENETRE>
-bool Graphe<Ar, So>::dessineToutesAretes(FENETRE & fenetre) const
-{
-	Maillon< Arete<Ar, So>> * pA;
-	for (pA = this->lAretes; pA; pA = pA->s)
-		if (!fenetre.dessine(pA->v)) return false; // tente de dessiner puis retourne false en cas d'echec
-
-	return true;
-}
-
-template <class Ar, class So>
-template< class FENETRE>
-bool Graphe<Ar, So>::dessineTousSommets(FENETRE & fenetre) const
-{
-	Maillon< Sommet<So>> * pS;
-	for (pS = this->lSommets; pS; pS = pS->s)
-		if (!fenetre.dessine(pS->v)) return false;	// tente de dessiner puis retourne false en cas d'echec
-
-	return true;
-}
-
-
-template <class So, class FENETRE>
-bool dessine(const Maillon<Sommet<So>> * chemin, FENETRE & fenetre, const unsigned int couleur)
-{
-	if (!(chemin && chemin->s)) // le chemin est vide ou ne contient qu'un sommet : il n'y  a rien a dessiner
-		return true;
-
-	else
-	{
-		// on dessine d'abord la 1ere arete
-
-		if (!fenetre.dessine(chemin->v, chemin->s->v, couleur)) return false;
-
-		return dessine(chemin->s, fenetre, couleur);		// puis on dessine les aretes suivantes
-	}
 }
 #pragma endregion

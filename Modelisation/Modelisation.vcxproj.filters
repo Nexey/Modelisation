@@ -30,9 +30,6 @@
     <ClInclude Include="Graphe\Sommet.h">
       <Filter>Fichiers d%27en-tête\Graphe</Filter>
     </ClInclude>
-    <ClInclude Include="Graphe\Arete.h">
-      <Filter>Fichiers d%27en-tête\Graphe</Filter>
-    </ClInclude>
     <ClInclude Include="Graphe\Graphe.h">
       <Filter>Fichiers d%27en-tête\Graphe</Filter>
     </ClInclude>
@@ -41,6 +38,9 @@
     </ClInclude>
     <ClInclude Include="Outils\ChargerGraphe.h">
       <Filter>Fichiers d%27en-tête\Outils</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphe\Arc.h">
+      <Filter>Fichiers d%27en-tête\Graphe</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
