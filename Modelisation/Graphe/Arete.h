@@ -7,6 +7,8 @@
 
 using namespace std;
 
+// S stocke les infos de l'arête, T stocke les infos des sommets 
+// TODO : Trouver un meilleur nom autre que infoArete et infoSommet pour éviter de trop ressembler à Julien
 template <class S, class T>
 class Arete {
 public:
