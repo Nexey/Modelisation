@@ -115,6 +115,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Graphe\Arete.h" />
+    <ClInclude Include="Graphe\Graphe.h" />
+    <ClInclude Include="Graphe\Maillon.h" />
+    <ClInclude Include="Graphe\Sommet.h" />
+    <ClInclude Include="Main\Erreur.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

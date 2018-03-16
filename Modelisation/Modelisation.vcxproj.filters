@@ -13,5 +13,28 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Main">
+      <UniqueIdentifier>{2d7e0c32-735d-40b9-a621-f8be828dd6bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Graphe">
+      <UniqueIdentifier>{5d96352f-385b-47d0-8513-da83ac2c5caa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Main\Erreur.h">
+      <Filter>Fichiers d%27en-tête\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphe\Sommet.h">
+      <Filter>Fichiers d%27en-tête\Graphe</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphe\Arete.h">
+      <Filter>Fichiers d%27en-tête\Graphe</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphe\Graphe.h">
+      <Filter>Fichiers d%27en-tête\Graphe</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphe\Maillon.h">
+      <Filter>Fichiers d%27en-tête\Graphe</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
