@@ -19,6 +19,9 @@
     <Filter Include="Fichiers d%27en-tête\Graphe">
       <UniqueIdentifier>{5d96352f-385b-47d0-8513-da83ac2c5caa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Outils">
+      <UniqueIdentifier>{ac30c4a7-23be-4469-b3fd-5223abaa5a4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Erreur.h">
@@ -36,5 +39,13 @@
     <ClInclude Include="Graphe\Maillon.h">
       <Filter>Fichiers d%27en-tête\Graphe</Filter>
     </ClInclude>
+    <ClInclude Include="Outils\ChargerGraphe.h">
+      <Filter>Fichiers d%27en-tête\Outils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main\Main.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
