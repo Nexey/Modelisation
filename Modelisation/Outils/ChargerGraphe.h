@@ -5,15 +5,17 @@ class ChargerGraphe {
 	std::string chemin;
 	inline void chargerFichier();
 	inline void valideFichier();
+	inline void initFichier();
 public:
 	std::ifstream fichier;
 
 	ChargerGraphe(const std::string &chemin) : chemin(chemin){
-		chargerFichier();
-		valideFichier();
+		this->chargerFichier();
+		this->valideFichier();
+		this->initFichier();
 	}
 
-	inline void lireFichier();
+	inline void lireFichier(const std::string &);
 	
 };
 
@@ -26,14 +28,23 @@ void ChargerGraphe::valideFichier() {
 		std::cerr << "Erreur lors de l'ouverture du fichier.";
 }
 
-void ChargerGraphe::lireFichier() {
+void ChargerGraphe::lireFichier(const std::string &stop) {
 	std::ifstream tmp(this->chemin);
 
 	std::string ligne;
 
 	std::cout << "Lecture du fichier en entier :\n\n";
 
-	while (getline(tmp, ligne)) {
-		std::cout << ligne << '\n';
-	}
+	while (getline(/*tmp*/ this->fichier, ligne) && ligne.compare(stop) != 0);
+		/* std::cout << ligne << '\n';*/
+}
+
+inline void ChargerGraphe::initFichier() {
+	// Lecture jusqu'à sectionSommets
+	const std::string sectionSommets("sectionSommets");
+	const std::string sectionArcs("sectionArcs");
+	this->lireFichier(sectionSommets);
+	string test;
+	getline(this->fichier, test);
+	cout << test << std::endl;
 }

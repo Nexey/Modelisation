@@ -7,7 +7,5 @@ int main() {
 	string chemin = "./Data/data_VRPTW_10.gpr";
 	ChargerGraphe infosGraphe(chemin);
 
-	infosGraphe.lireFichier();
-
 	system("pause");
 }
