@@ -63,7 +63,6 @@ bool compareInt(const unsigned &a, const unsigned &b) {
 
 template<class T>
 void ChargerGraphe::bouclerSurLigne(bool(*condition) (const T &, const T  &), const T &a, const T  &b) {
-	revenirAuDebut();
 	do {
 		this->ligneActuelle++;
 	} while (getline(this->fichier, this->ligneTmp) && condition(a, b));
@@ -71,11 +70,13 @@ void ChargerGraphe::bouclerSurLigne(bool(*condition) (const T &, const T  &), co
 
 // Lit le fichier jusqu'à rencontrer le stop
 void ChargerGraphe::atteindreChaine(const std::string &stop) {
+	revenirAuDebut();
 	bouclerSurLigne(compareString, this->ligneTmp, stop);
 }
 
 // Lit le fichier jusqu'à rencontrer le numéro de ligne
 void ChargerGraphe::atteindreLigne(const unsigned &numLigne) {
+	if (numLigne > this->ligneActuelle) revenirAuDebut();
 	bouclerSurLigne(compareInt, this->ligneActuelle, numLigne);
 }
 

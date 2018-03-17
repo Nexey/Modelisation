@@ -213,9 +213,6 @@ Maillon< pair< Sommet<So> *, Arc<Ar, So>* > >  *  Graphe<Ar, So>::adjacences(con
 
 		if (sommet == l->v->debut)
 			r = new Maillon< pair< Sommet<So> *, Arc<Ar, So>* > >(new pair< Sommet<So> *, Arc<Ar, So>* >(l->v->fin, l->v), r);
-		else
-			if (sommet == l->v->fin)
-				r = new Maillon< pair< Sommet<So> *, Arc<Ar, So>* > >(new pair< Sommet<So> *, Arc<Ar, So>* >(l->v->debut, l->v), r);
 
 	return r;
 }
