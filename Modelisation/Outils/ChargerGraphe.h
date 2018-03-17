@@ -5,13 +5,21 @@ class ChargerGraphe {
 	std::string chemin;
 	inline void chargerFichier();
 	inline void valideFichier();
-	inline void initFichier();
+	inline void initPositionsLignes();
 	inline void resetLigneActuelle();
+	inline void revenirAuDebut();
+
+	template<class T>
+	inline void bouclerSurLigne(bool(*condition) (const T &, const T  &), const T &a, const T  &b);
 	
 	unsigned ligneActuelle;
 	unsigned ligneSommets;
 	unsigned ligneArcs;
 
+	const int ligneDeb = 1;
+
+	// Ligne qui sert de poubelle pour les getLine()
+	std::string ligneTmp;
 public:
 	std::ifstream fichier;
 
@@ -19,12 +27,22 @@ public:
 		this->resetLigneActuelle();
 		this->chargerFichier();
 		this->valideFichier();
-		this->initFichier();
+		this->initPositionsLignes();
 	}
 
-	inline void lireFichier(const std::string&);
-	inline void lireFichierDuDebut(const std::string&);
+	inline void atteindreChaine(const std::string&);
+	inline void atteindreLigne(const unsigned&);
 };
+
+inline void ChargerGraphe::resetLigneActuelle() {
+	this->ligneActuelle = ligneDeb;
+}
+
+inline void ChargerGraphe::revenirAuDebut() {
+	this->resetLigneActuelle();
+	this->fichier.clear();
+	this->fichier.seekg(0, this->fichier.beg);
+}
 
 void ChargerGraphe::chargerFichier() {
 	this->fichier.open(this->chemin);
@@ -35,33 +53,42 @@ void ChargerGraphe::valideFichier() {
 		std::cerr << "Erreur lors de l'ouverture du fichier.";
 }
 
+bool compareString(const std::string &a, const std::string &b) {
+	return a.compare(b) != 0;
+}
+
+bool compareInt(const unsigned &a, const unsigned &b) {
+	return a != b;
+}
+
+template<class T>
+void ChargerGraphe::bouclerSurLigne(bool(*condition) (const T &, const T  &), const T &a, const T  &b) {
+	revenirAuDebut();
+	do {
+		this->ligneActuelle++;
+	} while (getline(this->fichier, this->ligneTmp) && condition(a, b));
+}
+
 // Lit le fichier jusqu'à rencontrer le stop
-// Attention, la prochaine lecture reprend là où elle s'était précédemment arrêtée
-void ChargerGraphe::lireFichier(const std::string &stop) {
-	std::string ligne;
-	while (getline(this->fichier, ligne) && ligne.compare(stop) != 0) this->ligneActuelle++;
+void ChargerGraphe::atteindreChaine(const std::string &stop) {
+	bouclerSurLigne(compareString, this->ligneTmp, stop);
 }
 
-void ChargerGraphe::lireFichierDuDebut(const std::string &stop) {
-	this->ligneActuelle = 0;
-	this->fichier.clear();
-	this->fichier.seekg(0, this->fichier.beg);
-	lireFichier(stop);
+// Lit le fichier jusqu'à rencontrer le numéro de ligne
+void ChargerGraphe::atteindreLigne(const unsigned &numLigne) {
+	bouclerSurLigne(compareInt, this->ligneActuelle, numLigne);
 }
 
-inline void ChargerGraphe::initFichier() {
+inline void ChargerGraphe::initPositionsLignes() {
 	// Lecture jusqu'à sectionSommets
 	const std::string sectionSommets("sectionSommets");
 	const std::string sectionArcs("sectionArcs");
 
-	this->lireFichier(sectionSommets);
-	// La prochaine ligne est la source, la dernière ligne jusqu'à une ligne vide est le puits
+	this->atteindreChaine(sectionSommets);
+	// La prochaine ligne est la source, la dernière ligne jusqu'à une ligne vide est le puit	this->ligneSommets = this->ligneActuelle;
 	this->ligneSommets = this->ligneActuelle;
 
-	this->lireFichier(sectionArcs);
+	this->atteindreChaine(sectionArcs);
+	// Les arcs commencent ici
 	this->ligneArcs = this->ligneActuelle;
-}
-
-inline void ChargerGraphe::resetLigneActuelle() {
-	this->ligneActuelle = 1;
 }
