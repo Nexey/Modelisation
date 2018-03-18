@@ -22,7 +22,7 @@ public:
 
 
 
-	Sommet * creeSommet(int borneInf, int borneSup);
+	Sommet * creeSommet(string nom, int borneInf, int borneSup);
 	Arc * creeArc(int cout, int temps, Sommet * debut, Sommet * fin);
 
 
@@ -68,9 +68,9 @@ void Graphe::effaceTout()
 #pragma endregion
 
 #pragma region CREATIONS
-Sommet * Graphe::creeSommet(int borneInf, int borneSup)
+Sommet * Graphe::creeSommet(string nom, int borneInf, int borneSup)
 {
-	Sommet * sommetCree = new Sommet(borneInf, borneSup);
+	Sommet * sommetCree = new Sommet(nom, borneInf, borneSup);
 	lSommets = new Maillon< Sommet >(sommetCree, lSommets);
 
 	return sommetCree;

@@ -11,10 +11,12 @@ public:
     int degre;
     int inf;
     int sup;
+
+    string nom;
     //info = valuation du sommet : poids arete ascendante + valuation sommmet pere
     Sommet* pere;
 
-    Sommet(int borneInf, int borneSup) : degre(0), inf(borneInf), sup(borneSup){}
+    Sommet(string nom, int borneInf, int borneSup) : degre(0), nom(nom), inf(borneInf), sup(borneSup){}
 
     operator string () const;
 
@@ -45,8 +47,7 @@ public:
 //#########SOMME
 Sommet::operator string () const {
         ostringstream oss;
-
-        oss << "Sommet[" << "degre:" << degre <<  "]";
+        oss << nom <<  "[degre:" << degre <<  "]";
         return oss.str();
 }
 
