@@ -42,7 +42,7 @@
     <ClInclude Include="Graphe\ElementsGraphe.h">
       <Filter>Fichiers d%27en-tête\Graphe</Filter>
     </ClInclude>
-    <ClInclude Include="Parcours\PCCC.h">
+    <ClInclude Include="Parcours\ParcoursDFS.h">
       <Filter>Fichiers d%27en-tête\Parcours</Filter>
     </ClInclude>
   </ItemGroup>

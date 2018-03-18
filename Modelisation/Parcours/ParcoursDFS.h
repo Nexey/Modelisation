@@ -2,7 +2,7 @@
 
 #include "../Graphe/Graphe.h"
 
-void DFS_recursif(const Graphe* g, const Sommet* depart, Maillon<Sommet>* &SommetsMarques);
+void DFS_recursif(const Graphe* g, Sommet* depart, Maillon<Sommet>* &SommetsMarques);
 void parcours_DFS(const Graphe* g, Sommet* depart = NULL) {
 	Maillon<Sommet>* SommetsMarques = NULL;
 	if (depart == NULL) depart = g->lSommets->valeur;
@@ -28,7 +28,7 @@ void DFS_recursif(const Graphe* g, Sommet* depart, Maillon<Sommet>* &SommetsMarq
 	}
 }
 
-bool  detection_circuit_recursif(const Graphe* g, Sommet* depart, Maillon<Sommet>* &SommetsMarquesParent);
+bool detection_circuit_recursif(const Graphe* g, Sommet* depart, Maillon<Sommet>* &SommetsMarquesParent);
 bool detection_De_Circuit(const Graphe* g, Sommet* depart) {
 	Maillon<Sommet>* SommetsMarques = NULL;
 	Maillon<Maillon<Sommet>>* circuits;
