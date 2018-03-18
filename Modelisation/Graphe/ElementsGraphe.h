@@ -31,6 +31,7 @@ public:
     Arc(int cout, int temps, Sommet * debut, Sommet * fin) : cout(cout), temps(temps), debut(debut), fin(fin) {
             debut->degre++;
             fin->degre++;
+            debut->pere = fin;
     }
 
     ~Arc() { debut->degre--; fin->degre--; }
