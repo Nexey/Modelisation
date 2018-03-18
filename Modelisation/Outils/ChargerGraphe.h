@@ -171,8 +171,6 @@ inline void ChargerGraphe::recupereArcs(Graphe *g) {
 	} while (this->ligneTmp != "");
 }
 
-
-
 inline Graphe* ChargerGraphe::creationGraphe() {
 	Graphe *g = new Graphe();
 	this->recupereSommets(g);
