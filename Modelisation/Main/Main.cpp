@@ -8,8 +8,8 @@ int main() {
 	ChargerGraphe infosGraphe(chemin);
 
 	Graphe *graphe = infosGraphe.creationGraphe();
+	system("pause");
 	cout << *graphe;
-	//graphe->creeArc(4, 4, (graphe)->lSommets->valeur, (graphe)->lSommets->suivant->valeur);
 
 	system("pause");
 }

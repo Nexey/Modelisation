@@ -45,15 +45,14 @@ public:
 	bool estEgal(const Sommet * debut, const Sommet * fin) const;
 };
 
-
 //#########SOMME
 Sommet::operator string () const {
 	ostringstream oss;
 	oss << "Sommet[";
-	oss << "nom:" << nom << ";";
-	oss << "degre:" << degre << ";";
-	oss << "inf:" << inf << ";";
-	oss << "sup:" << sup;
+	oss << "nom: " << nom << ";   ";
+	oss << "degre: " << degre << ";   ";
+	oss << "inf: " << inf << ";   ";
+	oss << "sup: " << sup;
 	oss << "]";
 	return oss.str();
 }
@@ -66,11 +65,11 @@ ostream & operator << (ostream & os, const Sommet & sommet) {
 Arc::operator string () const {
 	ostringstream oss;
 	oss << "Arc[";
-	oss << "nom:" << nom << ";   ";
-	oss << "cout:" << cout << ";   ";
-	oss << "temps:" << temps << ";   ";
-	oss << "debut:" << debut->nom << ";   ";
-	oss << "fin:" << fin->nom;
+	oss << "nom: " << nom << ";   ";
+	oss << "cout: " << cout << ";   ";
+	oss << "temps: " << temps << ";   ";
+	oss << "debut: " << debut->nom << ";   ";
+	oss << "fin: " << fin->nom;
 	oss << "]";
 	return oss.str();
 

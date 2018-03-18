@@ -22,6 +22,9 @@
     <Filter Include="Fichiers d%27en-tête\Outils">
       <UniqueIdentifier>{ac30c4a7-23be-4469-b3fd-5223abaa5a4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Parcours">
+      <UniqueIdentifier>{e810c07f-ceb0-48f0-b921-4e12e886e726}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main\Erreur.h">
@@ -38,6 +41,9 @@
     </ClInclude>
     <ClInclude Include="Graphe\ElementsGraphe.h">
       <Filter>Fichiers d%27en-tête\Graphe</Filter>
+    </ClInclude>
+    <ClInclude Include="Parcours\PCCC.h">
+      <Filter>Fichiers d%27en-tête\Parcours</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
