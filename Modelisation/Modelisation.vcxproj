@@ -115,10 +115,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Graphe\Arc.h" />
+    <ClInclude Include="Graphe\ElementsGraphe.h" />
     <ClInclude Include="Graphe\Graphe.h" />
     <ClInclude Include="Graphe\Maillon.h" />
-    <ClInclude Include="Graphe\Sommet.h" />
     <ClInclude Include="Main\Erreur.h" />
     <ClInclude Include="Outils\ChargerGraphe.h" />
   </ItemGroup>
