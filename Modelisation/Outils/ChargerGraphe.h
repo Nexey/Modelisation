@@ -7,20 +7,6 @@ class ChargerGraphe {
 	std::string chemin;
 	const std::string sectionSommets;
 	const std::string sectionArcs;
-
-	inline void chargerFichier();
-	inline void valideFichier();
-	inline void initPositionsLignes();
-	inline void resetLigneActuelle();
-	inline void revenirAuDebut();
-	inline void bouclerJusqueLigneVide();
-	inline Sommet *recupereSommet(Maillon<Sommet> *lSommets, const string nom);
-	inline void recupereSommets(Graphe*);
-	inline void recupereArcs(Graphe*);
-
-	template<class T>
-	inline void bouclerSurLigne(bool(*condition) (const T &, const T  &), const T &a, const T  &b);
-	
 	unsigned ligneActuelle;
 	unsigned ligneSommets;
 	unsigned ligneArcs;
@@ -29,6 +15,27 @@ class ChargerGraphe {
 
 	// Ligne qui sert de poubelle pour les getLine()
 	std::string ligneTmp;
+
+	inline void chargerFichier();
+	inline void valideFichier();
+	inline void initPositionsLignes();
+	inline void resetLigneActuelle();
+	inline void revenirAuDebut();
+	inline void bouclerJusqueLigneVide();
+
+	inline Sommet *recupereSommet(Maillon<Sommet> *lSommets, const string nom);
+	inline void recupereSommets(Graphe*);
+	inline void recupereArcs(Graphe*);
+
+	inline void atteindreChaine(const std::string&);
+	inline void atteindreLigne(const unsigned&);
+
+	void split(const string &s, char delim, vector<string> &elems);
+	vector<string> split(const string &s, char delim);
+
+	template<class T>
+	inline void bouclerSurLigne(bool(*condition) (const T &, const T  &), const T &a, const T  &b);
+	
 public:
 	std::ifstream fichier;
 
@@ -39,12 +46,7 @@ public:
 		this->initPositionsLignes();
 	}
 
-	inline void atteindreChaine(const std::string&);
-	inline void atteindreLigne(const unsigned&);
 	inline Graphe* creationGraphe();
-
-	void split(const string &s, char delim, vector<string> &elems);
-	vector<string> split(const string &s, char delim);
 };
 
 inline void ChargerGraphe::resetLigneActuelle() {
