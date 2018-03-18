@@ -66,11 +66,11 @@ ostream & operator << (ostream & os, const Sommet & sommet) {
 Arc::operator string () const {
         ostringstream oss;
         oss << "Arc[";
-        oss << "nom:" << nom << ";";
-        oss << "cout:" << cout << ";";
-        oss << "temps:" << temps << ";";
-        oss << "debut:" << debut << ";";
-        oss << "fin:" << fin;
+        oss << "nom:" << nom << ";   ";
+        oss << "cout:" << cout << ";   ";
+        oss << "temps:" << temps << ";   ";
+        oss << "debut:" << debut->nom << ";   ";
+        oss << "fin:" << fin->nom;
         oss << "]";
         return oss.str();
 

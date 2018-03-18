@@ -14,7 +14,9 @@ class ChargerGraphe {
 	inline void resetLigneActuelle();
 	inline void revenirAuDebut();
 	inline void bouclerJusqueLigneVide();
+	inline Sommet *recupereSommet(Maillon<Sommet> *lSommets, const string nom);
 	inline void recupereSommets(Graphe*);
+	inline void recupereArcs(Graphe*);
 
 	template<class T>
 	inline void bouclerSurLigne(bool(*condition) (const T &, const T  &), const T &a, const T  &b);
@@ -94,7 +96,8 @@ void ChargerGraphe::atteindreChaine(const std::string &stop) {
 
 // Lit le fichier jusqu'à rencontrer le numéro de ligne
 void ChargerGraphe::atteindreLigne(const unsigned &numLigne) {
-	if (this->ligneActuelle > numLigne) revenirAuDebut();
+	//if (this->ligneActuelle > numLigne)
+		revenirAuDebut();
 	bouclerSurLigne(compareInt, this->ligneActuelle, numLigne);
 }
 
@@ -131,7 +134,7 @@ void ChargerGraphe::recupereSommets(Graphe *g) {
 	vector<string> ligne;
 
 	this->bouclerJusqueLigneVide();
-	int numLigne = this->ligneActuelle - 1;
+	unsigned numLigne = this->ligneActuelle - 1;
 	
 	do {
 		this->atteindreLigne(numLigne);
@@ -145,10 +148,34 @@ void ChargerGraphe::recupereSommets(Graphe *g) {
 	} while (numLigne >= this->ligneSommets);
 }
 
+Sommet *ChargerGraphe::recupereSommet(Maillon<Sommet> *lSommets, const string nom) {
+	if (lSommets->valeur->nom == nom)
+		return lSommets->valeur;
+	else
+		return recupereSommet(lSommets->suivant, nom);
+}
+
+inline void ChargerGraphe::recupereArcs(Graphe *g) {
+	this->atteindreLigne(this->ligneArcs);
+	vector<string> ligne;
+	do {
+		getline(this->fichier, ligneTmp);
+		if (this->ligneTmp != "") {
+			ligne = split(this->ligneTmp, ' ');
+
+			g->creeArc(ligne[0], std::stoi(ligne[3]), std::stoi(ligne[4]),
+				recupereSommet(g->lSommets, ligne[1]),
+				recupereSommet(g->lSommets, ligne[2])
+			);
+		}
+	} while (this->ligneTmp != "");
+}
+
 
 
 inline Graphe* ChargerGraphe::creationGraphe() {
 	Graphe *g = new Graphe();
 	this->recupereSommets(g);
+	this->recupereArcs(g);
 	return g;
 }

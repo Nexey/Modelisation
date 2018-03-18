@@ -4,12 +4,11 @@
 #include "../Main/Erreur.h"
 #include "../Graphe/ElementsGraphe.h"
 
-class Graphe
-{
+class Graphe {
 public:
 	Maillon< Sommet > * 	lSommets;
 	Maillon< Arc > *	lArcs;
-	
+
 #pragma region CREATIONS
 	//Constructeurs
 	Graphe() : lSommets(NULL), lArcs(NULL) {}
@@ -17,8 +16,8 @@ public:
 	//Destructeur
 	~Graphe() { this->effaceTout(); }
 
-    	/*Utilisé par l'operateur = et par le destructeur*/
-    	void effaceTout();
+	/*Utilisé par l'operateur = et par le destructeur*/
+	void effaceTout();
 
 
 
@@ -47,8 +46,7 @@ public:
 #pragma region OPERATORS
 ostream & operator << (ostream & os, const Graphe & gr) { return os << (string)gr; }
 
-Graphe::operator string() const
-{
+Graphe::operator string() const {
 	ostringstream oss;
 	oss << "Graphe[ \n";
 	oss << "nombre de sommets = " << this->nombreSommets() << "\n";
@@ -60,16 +58,14 @@ Graphe::operator string() const
 }
 
 /*Operateur = et destruceur*/
-void Graphe::effaceTout()
-{
+void Graphe::effaceTout() {
 	Maillon< Arc>::efface2(this->lArcs);
 	Maillon<Sommet >::efface2(this->lSommets);
 }
 #pragma endregion
 
 #pragma region CREATIONS
-Sommet * Graphe::creeSommet(const string& nom, int borneInf, int borneSup)
-{
+Sommet * Graphe::creeSommet(const string& nom, int borneInf, int borneSup) {
 	Sommet * sommetCree = new Sommet(nom, borneInf, borneSup);
 	lSommets = new Maillon< Sommet >(sommetCree, lSommets);
 
@@ -77,8 +73,7 @@ Sommet * Graphe::creeSommet(const string& nom, int borneInf, int borneSup)
 }
 
 
-Arc * Graphe::creeArc(const string& nom, int cout, int temps, Sommet * debut, Sommet * fin)
-{
+Arc * Graphe::creeArc(const string& nom, int cout, int temps, Sommet * debut, Sommet * fin) {
 	// ici tester que les 2 sommets sont bien existants dans le graphe
 	if (!Maillon< Sommet >::appartient(debut, lSommets)) throw Erreur("debut d'arc non defini");
 	if (!Maillon< Sommet >::appartient(fin, lSommets)) throw Erreur("fin d'arc non definie");
@@ -93,8 +88,7 @@ Arc * Graphe::creeArc(const string& nom, int cout, int temps, Sommet * debut, So
 
 
 #pragma region CONSULTATION
-Maillon< pair< Sommet *, Arc* > >  *  Graphe::adjacences(const Sommet * sommet) const
-{
+Maillon< pair< Sommet *, Arc* > >  *  Graphe::adjacences(const Sommet * sommet) const {
 	const Maillon< Arc > * l;
 
 	Maillon< pair< Sommet *, Arc* > > * r;				// pair< Sommet *, Arc* >
@@ -108,8 +102,7 @@ Maillon< pair< Sommet *, Arc* > >  *  Graphe::adjacences(const Sommet * sommet) 
 }
 
 
-Maillon< Arc > *  Graphe::arcsAdjacents(const Sommet * sommet) const
-{
+Maillon< Arc > *  Graphe::arcsAdjacents(const Sommet * sommet) const {
 	const Maillon< Arc > * l;
 
 	Maillon< Arc> * r;				// pair< Sommet *, Arc* >
@@ -122,8 +115,7 @@ Maillon< Arc > *  Graphe::arcsAdjacents(const Sommet * sommet) const
 }
 
 
-Maillon< Sommet > *  Graphe::voisins(const Sommet * sommet) const
-{
+Maillon< Sommet > *  Graphe::voisins(const Sommet * sommet) const {
 	const Maillon< Arc > * l;
 
 	Maillon< Sommet> * r;				// pair< Sommet *, Arc* >
@@ -135,8 +127,7 @@ Maillon< Sommet > *  Graphe::voisins(const Sommet * sommet) const
 	return r;
 }
 
-Arc * Graphe::getArcParSommets(const Sommet * debut, const Sommet * fin) const
-{
+Arc * Graphe::getArcParSommets(const Sommet * debut, const Sommet * fin) const {
 	Maillon<Arc > * l;
 
 	for (l = this->lArcs; l; l = l->suivant)
