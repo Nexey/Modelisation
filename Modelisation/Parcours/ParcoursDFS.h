@@ -8,8 +8,6 @@ void parcours_DFS(const Graphe* g, Sommet* depart = NULL) {
 	if (depart == NULL) depart = g->lSommets->valeur;
 
 	DFS_recursif(g, depart, SommetsMarques);
-
-	return;
 }
 
 //Les sommets marqués doivent se transmettre lors de la récursion. Or un maillon est est pointeur
