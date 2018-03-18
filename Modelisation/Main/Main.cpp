@@ -7,11 +7,11 @@ int main() {
 	string chemin = "./Data/data_VRPTW_10.gpr";
 	ChargerGraphe infosGraphe(chemin);
 
-	Graphe<Arc<int, int>, Sommet<int>> graphe;
+	Graphe graphe;
 
-	graphe.creeSommet(Sommet<int>(0));
-	graphe.creeSommet(Sommet<int>(1));
-	graphe.creeArc(4, (&graphe)->lSommets->v, (&graphe)->lSommets->s->v);
+	graphe.creeSommet(0, 0);
+	graphe.creeSommet(1, 0);
+	graphe.creeArc(4, 4, (&graphe)->lSommets->valeur, (&graphe)->lSommets->suivant->valeur);
 
 	system("pause");
 }

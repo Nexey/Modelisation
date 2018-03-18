@@ -7,199 +7,199 @@
 
 using namespace std;
 
-template<class T>
-T max(const T &a, const T &b) { return a > b ? a : b; }
+template<class Type>
+Type max(const Type &a, const Type &b) { return a > b ? a : b; }
 
-template <class T>
+template <class Type>
 class Maillon {
 public:
-	T * v;				// valeur
-	Maillon<T> * s;	// suivant
+    	Type * valeur;				// valeur
+	Maillon<Type> * suivant;	// suivant
 
-	Maillon(T * v, Maillon<T> * s) :v(v), s(s) {}
+	Maillon(Type * v, Maillon<Type> * s) :valeur(v), suivant(s) {}
 
-	static const string toString(const Maillon<T> * p, const char * debut = "( ", const char * separateur = ", ", const char * fin = ")");
+	static const string toString(const Maillon<Type> * p, const char * debut = "( ", const char * separateur = ", ", const char * fin = ")");
 
-	static int taille(const Maillon<T> * l);
+	static int taille(const Maillon<Type> * l);
 
-	static  Maillon<T> * copie1(Maillon<T> * l);
+	static  Maillon<Type> * copie1(Maillon<Type> * l);
 
-	static  Maillon<T> * copie2(const Maillon<T> * l);
+	static  Maillon<Type> * copie2(const Maillon<Type> * l);
 
-	static Maillon<T> * copie3(const Maillon<T> * l);
+	static Maillon<Type> * copie3(const Maillon<Type> * l);
 
-	static void concat(Maillon<T> * & l1, Maillon<T> *  l2);
+	static void concat(Maillon<Type> * & l1, Maillon<Type> *  l2);
 
-	static void efface1(Maillon<T>* & l);
+	static void efface1(Maillon<Type>* & l);
 
-	static void efface2(Maillon<T>* & l);
+	static void efface2(Maillon<Type>* & l);
 
-	static  Maillon< T > * appartient(const T * a, Maillon<T> * l);
+	static  Maillon< Type > * appartient(const Type * a, Maillon<Type> * l);
 
 	template <class FONCTEUR>
-	static Maillon< T > * appartient(Maillon<T> * l, const FONCTEUR & condition);
+	static Maillon< Type > * appartient(Maillon<Type> * l, const FONCTEUR & condition);
 
-	static void insertionOrdonnee(T * a, Maillon<T> * & l, bool(*estPlusPetitOuEgal)(const T * a1, const T * a2));
+	static void insertionOrdonnee(Type * a, Maillon<Type> * & l, bool(*estPlusPetitOuEgal)(const Type * a1, const Type * a2));
 
-	static bool retire(const T * a, Maillon<T> * & l);
+	static bool retire(const Type * a, Maillon<Type> * & l);
 
-	static T * depiler(Maillon<T> * & l);
+	static Type * depiler(Maillon<Type> * & l);
 };
 
-template<class T>
-ostream& operator <<(ostream & os, const Maillon<T> * p) { return os << Maillon<T>::toString(p); }
+template<class Type>
+ostream& operator <<(ostream & os, const Maillon<Type> * p) { return os << Maillon<Type>::toString(p); }
 
-template <class T>
-const string Maillon<T>::toString(const Maillon<T> * p, const char * debut, const char * separateur, const char * fin) {
-	Maillon<T> * r;
+template <class Type>
+const string Maillon<Type>::toString(const Maillon<Type> * p, const char * debut, const char * separateur, const char * fin) {
+	Maillon<Type> * r;
 	ostringstream oss;
 
-	for (r = (Maillon<T>*) p, oss << debut; r; r = r->s)
-		oss << *(r->v) << separateur;
+	for (r = (Maillon<Type>*) p, oss << debut; r; r = r->suivant)
+		oss << *(r->valeur) << separateur;
 
 	oss << fin;
 	return oss.str();
 }
 
-template <class T>
-void Maillon<T>::concat(Maillon<T> * & l1, Maillon<T> * l2) {
+template <class Type>
+void Maillon<Type>::concat(Maillon<Type> * & l1, Maillon<Type> * l2) {
 	if (!l1)        /* l1 == liste vide */
 		l1 = l2;
 
 	else
-		concat(l1->s, l2);
+		concat(l1->suivant, l2);
 }
 
-template <class T>
-int Maillon<T>::taille(const Maillon<T> * l) {
+template <class Type>
+int Maillon<Type>::taille(const Maillon<Type> * l) {
 	if (!l) return 0;
 	else
-		return 1 + Maillon<T>::taille(l->s);
+		return 1 + Maillon<Type>::taille(l->suivant);
 }
 
-template <class T>
-Maillon<T> * Maillon<T>::copie1(Maillon<T> * l) {
+template <class Type>
+Maillon<Type> * Maillon<Type>::copie1(Maillon<Type> * l) {
 	if (!l)
 		return NULL;
 	else
-		return new Maillon<T>(l->v, Maillon<T>::copie1(l->s));
+		return new Maillon<Type>(l->valeur, Maillon<Type>::copie1(l->suivant));
 }
 
-template <class T>
-Maillon<T> * Maillon<T>::copie2(const Maillon<T> * l) {
+template <class Type>
+Maillon<Type> * Maillon<Type>::copie2(const Maillon<Type> * l) {
 	if (!l)
 		return NULL;
 	else
-		return new Maillon<T>(new T(*(l->v)), Maillon<T>::copie2(l->s));
+		return new Maillon<Type>(new Type(*(l->valeur)), Maillon<Type>::copie2(l->suivant));
 }
 
-template <class T>
-Maillon<T> * Maillon<T>::copie3(const Maillon<T> * l) {
+template <class Type>
+Maillon<Type> * Maillon<Type>::copie3(const Maillon<Type> * l) {
 	if (!l)
 		return NULL;
 	else
-		return new Maillon<T>(l->v->copie(), Maillon<T>::copie3(l->s));
+		return new Maillon<Type>(l->valeur->copie(), Maillon<Type>::copie3(l->suivant));
 }
 
-template <class T>
-void Maillon<T>::efface1(Maillon<T>* & l) {
+template <class Type>
+void Maillon<Type>::efface1(Maillon<Type>* & l) {
 	if (l) {
-		Maillon<T>::efface1(l->s);
+		Maillon<Type>::efface1(l->suivant);
 		delete l; l = NULL;
 	}
 }
 
-template <class T>
-void Maillon<T>::efface2(Maillon<T>* & l) {
+template <class Type>
+void Maillon<Type>::efface2(Maillon<Type>* & l) {
 	if (l) {
-		Maillon<T>::efface2(l->s);
-		delete l->v; delete l; l = NULL;
+		Maillon<Type>::efface2(l->suivant);
+		delete l->valeur; delete l; l = NULL;
 	}
 }
 
-template <class T>
-Maillon< T > * Maillon< T >::appartient(const T * a, Maillon<T> * l) {
-	for (; l; l = l->s)
-		if (a == l->v)
+template <class Type>
+Maillon< Type > * Maillon< Type >::appartient(const Type * a, Maillon<Type> * l) {
+	for (; l; l = l->suivant)
+		if (a == l->valeur)
 			return l;
 
 	return l;
 }
 
-template <class T>
+template <class Type>
 template <class FONCTEUR>
-Maillon< T > * Maillon< T >::appartient(Maillon<T> * l, const FONCTEUR & condition) {
-	for (; l; l = l->s)
-		if (condition(l->v))
+Maillon< Type > * Maillon< Type >::appartient(Maillon<Type> * l, const FONCTEUR & condition) {
+	for (; l; l = l->suivant)
+		if (condition(l->valeur))
 			return l;
 
 	return l;
 }
 
-template<class T>
-void Maillon<T>::insertionOrdonnee(T * a, Maillon<T> * & l, bool(*estPlusPetitOuEgal)(const T * a1, const T * a2)) {
-	if (!l || estPlusPetitOuEgal(a, l->v))
-		l = new Maillon<T>(a, l);
+template<class Type>
+void Maillon<Type>::insertionOrdonnee(Type * a, Maillon<Type> * & l, bool(*estPlusPetitOuEgal)(const Type * a1, const Type * a2)) {
+	if (!l || estPlusPetitOuEgal(a, l->valeur))
+		l = new Maillon<Type>(a, l);
 	else
-		Maillon<T>::insertionOrdonnee(a, l->s, estPlusPetitOuEgal);
+		Maillon<Type>::insertionOrdonnee(a, l->suivant, estPlusPetitOuEgal);
 }
 
-template<class T>
-bool Maillon<T>::retire(const T * a, Maillon<T> * & l) {
+template<class Type>
+bool Maillon<Type>::retire(const Type * a, Maillon<Type> * & l) {
 	if (!l)
 		return false;
 	else
-		if (a == l->v) {
-			Maillon<T> * r = l; l = l->s; delete r;
+		if (a == l->valeur) {
+			Maillon<Type> * r = l; l = l->suivant; delete r;
 			return true;
 		}
 		else
-			return Maillon<T>::retire(a, l->s);
+			return Maillon<Type>::retire(a, l->suivant);
 }
 
-template <class T>
-T * Maillon<T>::depiler(Maillon<T> * & l) {
+template <class Type>
+Type * Maillon<Type>::depiler(Maillon<Type> * & l) {
 	if (!l) throw Erreur("impossible de depiler une pile vide");
-	T * a = l->v;
-	Maillon<T> * tete = l;
+	Type * a = l->valeur;
+	Maillon<Type> * tete = l;
 
-	l = l->s; delete tete;
+	l = l->suivant; delete tete;
 	return a;
 
 }
 
-template <class T>
-Maillon<T> * reunion(Maillon<T> * l1, Maillon<T> * l2) {
-	Maillon<T> * r = Maillon<T>::copie1(l2);
-	Maillon<T> * pl1;
+template <class Type>
+Maillon<Type> * reunion(Maillon<Type> * l1, Maillon<Type> * l2) {
+	Maillon<Type> * r = Maillon<Type>::copie1(l2);
+	Maillon<Type> * pl1;
 
-	for (pl1 = l1; pl1; pl1 = pl1->s)
-		if (!Maillon<T>::appartient(pl1->v, r))
-			r = new Maillon<T>(pl1->v, r);
+	for (pl1 = l1; pl1; pl1 = pl1->suivant)
+		if (!Maillon<Type>::appartient(pl1->valeur, r))
+			r = new Maillon<Type>(pl1->valeur, r);
 
 	return r;
 }
 
-template <class T>
-void partage(Maillon<T> * & p, Maillon<T> * & p1) {
-	if (p == NULL || p->s == NULL)
+template <class Type>
+void partage(Maillon<Type> * & p, Maillon<Type> * & p1) {
+	if (p == NULL || p->suivant == NULL)
 		p1 = NULL;
 	else {
-		Maillon<T> *  r1, *r2;
+		Maillon<Type> *  r1, *r2;
 
-		r1 = p->s;
-		r2 = r1->s;
+		r1 = p->suivant;
+		r2 = r1->suivant;
 
 		partage(r2, p1);
 
-		r1->s = p1;
-		p->s = r2;
+		r1->suivant = p1;
+		p->suivant = r2;
 		p1 = r1;
 	}
 }
 
-template <class T>
-void fusion(Maillon<T> * & p1, Maillon<T> * & p2, bool(*estPlusPetitOuEgal)(const T * a1, const T * a2)) {
+template <class Type>
+void fusion(Maillon<Type> * & p1, Maillon<Type> * & p2, bool(*estPlusPetitOuEgal)(const Type * a1, const Type * a2)) {
 	if (!p2) return; // p2 est vide, il n'y a rien a faire
 
 	if (!p1) // p1 est vide et p2 ne l'est pas
@@ -210,28 +210,28 @@ void fusion(Maillon<T> * & p1, Maillon<T> * & p2, bool(*estPlusPetitOuEgal)(cons
 
 	// a present, p1 et p2 sont non vides
 
-	if (estPlusPetitOuEgal(p1->v, p2->v)) // p1->v <= p2->v
+	if (estPlusPetitOuEgal(p1->valeur, p2->valeur)) // p1->valeur <= p2->valeur
 	{
-		Maillon<T> * r;
-		r = p1->s;
+		Maillon<Type> * r;
+		r = p1->suivant;
 		fusion(r, p2, estPlusPetitOuEgal);
-		p1->s = r;
+		p1->suivant = r;
 	}
-	else // p1->v > p2->v
+	else // p1->valeur > p2->valeur
 	{
-		Maillon<T> * r;
-		r = p2->s;
+		Maillon<Type> * r;
+		r = p2->suivant;
 		fusion(p1, r, estPlusPetitOuEgal);
-		p2->s = p1;
+		p2->suivant = p1;
 		p1 = p2;
 		p2 = NULL;
 	}
 }
 
-template <class T>
-void tri(Maillon<T>* & p, bool(*estPlusPetitOuEgal)(const T * a1, const T * a2)) {
-	if (p != NULL && p->s != NULL) {
-		Maillon<T> * p1;
+template <class Type>
+void tri(Maillon<Type>* & p, bool(*estPlusPetitOuEgal)(const Type * a1, const Type * a2)) {
+	if (p != NULL && p->suivant != NULL) {
+		Maillon<Type> * p1;
 
 		partage(p, p1);
 
