@@ -16,7 +16,7 @@ public:
     //info = valuation du sommet : poids arete ascendante + valuation sommmet pere
     Sommet* pere;
 
-    Sommet(string nom, int borneInf, int borneSup) : degre(0), nom(nom), inf(borneInf), sup(borneSup){}
+    Sommet(const string& nom, int borneInf, int borneSup) : degre(0), nom(nom), inf(borneInf), sup(borneSup){}
 
     operator string () const;
 
@@ -30,7 +30,9 @@ public:
     int cout;
     int temps;
 
-    Arc(int cout, int temps, Sommet * debut, Sommet * fin) : cout(cout), temps(temps), debut(debut), fin(fin) {
+    string nom;
+
+    Arc(const string& nom, int cout, int temps, Sommet * debut, Sommet * fin) : nom(nom), cout(cout), temps(temps), debut(debut), fin(fin) {
             debut->degre++;
             fin->degre++;
             debut->pere = fin;
@@ -47,7 +49,12 @@ public:
 //#########SOMME
 Sommet::operator string () const {
         ostringstream oss;
-        oss << nom <<  "[degre:" << degre <<  "]";
+        oss << "Sommet[";
+        oss << "nom:" << nom << ";";
+        oss <<  "degre:" << degre << ";";
+        oss << "inf:" << inf << ";";
+        oss << "sup:" << sup;
+        oss <<  "]";
         return oss.str();
 }
 
@@ -58,8 +65,13 @@ ostream & operator << (ostream & os, const Sommet & sommet) {
 //#########ARC
 Arc::operator string () const {
         ostringstream oss;
-
-        oss << "Arc[" << "debut:" << debut <<  "fin:" << fin <<  "]";
+        oss << "Arc[";
+        oss << "nom:" << nom << ";";
+        oss << "cout:" << cout << ";";
+        oss << "temps:" << temps << ";";
+        oss << "debut:" << debut << ";";
+        oss << "fin:" << fin;
+        oss << "]";
         return oss.str();
 
 }
