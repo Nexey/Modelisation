@@ -9,4 +9,4 @@ add_executable(Modelisation
         Modelisation/Main/Erreur.h
         Modelisation/Main/Main.cpp
         Modelisation/Outils/ChargerGraphe.h
-        Modelisation/Graphe/ElementsGraphe.h)
+        Modelisation/Graphe/ElementsGraphe.h Modelisation/Algorithmes/ParcoursDFS.h)
