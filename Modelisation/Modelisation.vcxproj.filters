@@ -27,9 +27,6 @@
     <ClInclude Include="Main\Erreur.h">
       <Filter>Fichiers d%27en-tête\Main</Filter>
     </ClInclude>
-    <ClInclude Include="Graphe\Sommet.h">
-      <Filter>Fichiers d%27en-tête\Graphe</Filter>
-    </ClInclude>
     <ClInclude Include="Graphe\Graphe.h">
       <Filter>Fichiers d%27en-tête\Graphe</Filter>
     </ClInclude>
@@ -39,7 +36,7 @@
     <ClInclude Include="Outils\ChargerGraphe.h">
       <Filter>Fichiers d%27en-tête\Outils</Filter>
     </ClInclude>
-    <ClInclude Include="Graphe\Arc.h">
+    <ClInclude Include="Graphe\ElementsGraphe.h">
       <Filter>Fichiers d%27en-tête\Graphe</Filter>
     </ClInclude>
   </ItemGroup>
