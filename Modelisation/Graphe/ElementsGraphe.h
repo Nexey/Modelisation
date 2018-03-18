@@ -28,7 +28,7 @@ public:
     int cout;
     int temps;
 
-    Arc(int cout, int temps, Sommet * debut, Sommet * fin) : cout(cout), debut(debut), fin(fin) {
+    Arc(int cout, int temps, Sommet * debut, Sommet * fin) : cout(cout), temps(temps), debut(debut), fin(fin) {
             debut->degre++;
             fin->degre++;
     }
