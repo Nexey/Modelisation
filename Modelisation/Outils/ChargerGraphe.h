@@ -102,7 +102,7 @@ void ChargerGraphe::initPositionsLignes() {
 	// Lecture jusqu'à sectionSommets
 
 	this->atteindreChaine(this->sectionSommets);
-	// La prochaine ligne est la source, la dernière ligne jusqu'à une ligne vide est le puit	this->ligneSommets = this->ligneActuelle;
+	// La prochaine ligne est la source, la dernière ligne jusqu'à une ligne vide est le puit
 	this->ligneSommets = this->ligneActuelle;
 
 	this->atteindreChaine(this->sectionArcs);
@@ -144,6 +144,7 @@ void ChargerGraphe::recupereSommets(Graphe *g) {
 		numLigne--;
 	} while (numLigne >= this->ligneSommets);
 }
+
 
 
 inline Graphe* ChargerGraphe::creationGraphe() {
