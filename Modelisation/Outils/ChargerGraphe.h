@@ -30,8 +30,8 @@ class ChargerGraphe {
 	inline void atteindreChaine(const std::string&);
 	inline void atteindreLigne(const unsigned&);
 
-	void eclater(const string &s, char delim, vector<string> &elems);
-	vector<string> eclater(const string &s, char delim);
+	void eclater(const std::string &s, char delim, vector<std::string> &elems);
+	vector<string> eclater(const std::string &s, char delim);
 
 	template<class T>
 	inline void bouclerSurLigne(bool(*condition) (const T &, const T  &), const T &a, const T  &b);
@@ -115,17 +115,17 @@ void ChargerGraphe::initPositionsLignes() {
 	this->ligneArcs = this->ligneActuelle;
 }
 
-void ChargerGraphe::eclater(const string &ligne, char delim, vector<string> &mots) {
+void ChargerGraphe::eclater(const std::string &ligne, char delim, vector<std::string> &mots) {
 	stringstream ligneStream(ligne);
-	string mot;
+	std::string mot;
 	while (getline(ligneStream, mot, delim)) {
 		if (mot != "")
 			mots.push_back(mot);
 	}
 }
 
-vector<string> ChargerGraphe::eclater(const string &ligne, char delim) {
-	vector<string> mots;
+vector<std::string> ChargerGraphe::eclater(const std::string &ligne, char delim) {
+	vector<std::string> mots;
 	eclater(ligne, delim, mots);
 	return mots;
 }
@@ -133,7 +133,7 @@ vector<string> ChargerGraphe::eclater(const string &ligne, char delim) {
 void ChargerGraphe::recupereSommets(Graphe *g) {
 	this->atteindreLigne(this->ligneSommets);
 	getline(this->fichier, this->ligneTmp);
-	vector<string> mots;
+	vector<std::string> mots;
 
 	this->bouclerJusqueLigneVide();
 	unsigned numLigne = this->ligneActuelle - 1;
@@ -150,7 +150,7 @@ void ChargerGraphe::recupereSommets(Graphe *g) {
 	} while (numLigne >= this->ligneSommets);
 }
 
-Sommet *ChargerGraphe::recupereSommet(Maillon<Sommet> *lSommets, const string nom) {
+Sommet *ChargerGraphe::recupereSommet(Maillon<Sommet> *lSommets, const std::string nom) {
 	if (lSommets->valeur->nom == nom)
 		return lSommets->valeur;
 	else
@@ -159,7 +159,7 @@ Sommet *ChargerGraphe::recupereSommet(Maillon<Sommet> *lSommets, const string no
 
 inline void ChargerGraphe::recupereArcs(Graphe *g) {
 	this->atteindreLigne(this->ligneArcs);
-	vector<string> mots;
+	vector<std::string> mots;
 	do {
 		getline(this->fichier, ligneTmp);
 		if (this->ligneTmp != "") {
