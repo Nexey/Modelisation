@@ -23,6 +23,12 @@ public:
     	Sommet(const Sommet& copie):degre(0), nom(copie.nom), inf(copie.inf), sup(copie.sup){}
 
 	operator string () const;
+
+	bool equals(const Sommet *s){
+		if((degre == s->degre) && (inf == s->inf) && (sup == s->sup) && (nom.compare(s->nom)) && (etiquette == s->etiquette) && (pere == s->pere))
+			return true;
+		return false;
+	}
 };
 
 
