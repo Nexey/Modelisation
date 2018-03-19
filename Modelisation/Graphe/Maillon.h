@@ -11,7 +11,7 @@ template<class Type>
 Type max(const Type &a, const Type &b) { return a > b ? a : b; }
 
 template<class Type>
-Type min(const Type &a, const Type &b) { return a < b ? a : b; }
+Type minimum(const Type &a, const Type &b) { return a < b ? a : b; }
 
 template <class Type>
 class Maillon {

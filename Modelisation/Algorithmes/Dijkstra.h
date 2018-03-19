@@ -48,7 +48,7 @@ Maillon<Sommet>* dijkstra(const Graphe *g, int(*etiquette)(const Arc*)){
 
 					// Mise à jour de l'étiquette du sommet distant
 					// De base, l'étiquette distante vaut INT_MAX
-					l->valeur->fin->etiquette = min(l->valeur->fin->etiquette, etiquette(l->valeur) + s->etiquette);
+					l->valeur->fin->etiquette = minimum(l->valeur->fin->etiquette, etiquette(l->valeur) + s->etiquette);
 				}
 			}
 		}
