@@ -25,7 +25,8 @@ void recherche_Circuit_Recursif(Graphe* g, Sommet* actuel, liste_circuits* &list
 
 
 //Retourne la composante connexe depuis le sommet Depart
-Graphe* parcours_DFS(Graphe* g, Sommet* depart = g->lSommets->valeur){
+Graphe* parcours_DFS(Graphe* g, Sommet* depart = nullptr){
+        if(depart == nullptr) depart = g->lSommets->valeur;
         Graphe* gRetour =  new Graphe()
         mettre_a_zero(g);
 
@@ -89,7 +90,8 @@ bool existe_Chemin_Recursif(Graphe* g, Sommet* s1, Sommet* s2){
 
 
 //Renvoie true dès qu'un circuit à été détecté
-bool detection_De_Circuit(Graphe* g, Sommet* depart = g->lSommets->valeur){
+bool detection_De_Circuit(Graphe* g, Sommet* depart = nullptr){
+        if(depart == nullptr) depart = g->lSommets->valeur;
         mettre_a_zero(g);
 
         return detection_circuit_recursif(g, depart);
@@ -119,7 +121,8 @@ bool detection_circuit_recursif(Graphe*  g, Sommet* actuel){
 
 
 //Renvoie une liste de circuit
-Maillon<Maillon<Arc>>* recherche_Circuit(Graphe* g, Sommet* depart = g->lSommets->valeur){
+Maillon<Maillon<Arc>>* recherche_Circuit(Graphe* g, Sommet* depart = nullptr){
+        if(depart == nullptr) depart = g->lSommets->valeur;
         mettre_a_zero(g);
         liste_circuits* liste;
 
