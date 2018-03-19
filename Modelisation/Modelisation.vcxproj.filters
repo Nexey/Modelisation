@@ -48,6 +48,12 @@
     <ClInclude Include="Algorithmes\ParcoursDFS.h">
       <Filter>Fichiers d%27en-tête\Parcours</Filter>
     </ClInclude>
+    <ClInclude Include="Algorithmes\Ford.h">
+      <Filter>Fichiers d%27en-tête\Parcours</Filter>
+    </ClInclude>
+    <ClInclude Include="Outils\Outils.h">
+      <Filter>Fichiers d%27en-tête\Outils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Main.cpp">

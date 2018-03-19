@@ -116,12 +116,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Algorithmes\Dijkstra.h" />
+    <ClInclude Include="Algorithmes\Ford.h" />
     <ClInclude Include="Algorithmes\ParcoursDFS.h" />
     <ClInclude Include="Graphe\ElementsGraphe.h" />
     <ClInclude Include="Graphe\Graphe.h" />
     <ClInclude Include="Graphe\Maillon.h" />
     <ClInclude Include="Main\Erreur.h" />
     <ClInclude Include="Outils\ChargerGraphe.h" />
+    <ClInclude Include="Outils\Outils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Main.cpp" />
