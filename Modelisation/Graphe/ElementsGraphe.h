@@ -68,8 +68,8 @@ Arc::operator string () const {
 	oss << "nom: " << nom << ";   ";
 	oss << "cout: " << cout << ";   ";
 	oss << "temps: " << temps << ";   ";
-	oss << "debut: " << debut->nom << ";   ";
-	oss << "fin: " << fin->nom;
+	oss << "debut: " << *debut << ";   ";
+	oss << "fin: " << *fin;
 	oss << "]";
 	return oss.str();
 
