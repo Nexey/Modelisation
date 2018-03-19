@@ -115,6 +115,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Algorithmes\Dijkstra.h" />
     <ClInclude Include="Graphe\ElementsGraphe.h" />
     <ClInclude Include="Graphe\Graphe.h" />
     <ClInclude Include="Graphe\Maillon.h" />

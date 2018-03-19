@@ -45,6 +45,9 @@
     <ClInclude Include="Graphe\Maillon.h">
       <Filter>Fichiers d%27en-tête\Graphe</Filter>
     </ClInclude>
+    <ClInclude Include="Algorithmes\Dijkstra.h">
+      <Filter>Fichiers d%27en-tête\Parcours</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Main.cpp">

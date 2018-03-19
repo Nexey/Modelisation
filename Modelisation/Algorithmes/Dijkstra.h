@@ -18,24 +18,31 @@ bool aucuneValuationNegative(Maillon<Arc> *lArc) {
     return true;
 }
 
-Maillon<Arc>* dijkstra(const Graphe *g, Sommet* debut){
+Maillon<Arc>* dijkstra(const Graphe *g, Sommet* debut, int(*etiquette)(const Sommet*)){
     if(!aucuneValuationNegative(g->lArcs))
         return NULL;
 	int k = 0;
 	bool fin = false;
-	Maillon<Arc> *arcs = g->lArcs;
+	Maillon<Arc> *arcs = g->lArcs->suivant;
+	
+	Maillon<Sommet> * arcTmp;
+	for (; arcTmp; arcTmp)
+		arcTmp->valeur->etiquette = INT_MAX;
 
 	Sommet *s = debut;
 	s->etiquette = 0;
 
 	Maillon<Sommet> *sommetsMarques;
-	Maillon< pair< Sommet *, Arc* > > *l;
+	//Maillon< pair< Sommet *, Arc* > > *l;
+	Maillon<Arc> *arcsAdjacents;
 	Maillon<Sommet> *sommetsATraiter;
 	while (arcs != NULL && !fin) {
-		l = g->adjacences(s);
-
-		for (; l; l->suivant)
-			sommetsATraiter = new Maillon<Sommet>(l->valeur->first, sommetsATraiter);
+		arcsAdjacents = g->arcsAdjacents(s);
+		
+		for (Maillon<Arc> *l = arcsAdjacents; l; l->suivant) {
+			sommetsATraiter = new Maillon<Sommet>(l->valeur->fin, sommetsATraiter);
+			l->valeur->fin->etiquette = etiquette(l->valeur->fin);
+		}
 
 
 
