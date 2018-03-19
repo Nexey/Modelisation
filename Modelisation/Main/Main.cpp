@@ -1,35 +1,10 @@
 #include "../Outils/ChargerGraphe.h"
 #include "../Algorithmes/ParcoursDFS.h"
 #include "../Algorithmes/Dijkstra.h"
-#include <string>
-#include <iostream>
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
 using namespace std;
 
-
 int main(int argc, char *argv[]) {
-	string chemin("./Data/data_VRPTW_10.gpr");
-	vector<string> v;
-
-	if (argc > 1) chemin = argv[1];
-	else {
-		string path = "./Data";
-		for (auto & p : fs::directory_iterator(path))
-			v.push_back(p.path().string());
-
-		for (unsigned i = 0; i < v.size(); i++)
-			cout << i + 1 << ")\t" << v[i] << endl;
-
-		unsigned choix;
-		do {
-			cout << "Entrez le numero du fichier a tester [1 - " << v.size() << "]\t";
-			cin >> choix;
-			if (choix < 1 || choix > v.size()) cout << "Le numero doit etre compris entre 1 et " << v.size() << "." << endl;
-		} while (choix < 1 || choix > v.size());
-
-		chemin = v[choix - 1];
-	}
+	string chemin(detectionChemin(argc, argv));
 
 	ChargerGraphe infosGraphe(chemin);
 
@@ -41,10 +16,14 @@ int main(int argc, char *argv[]) {
 	system("pause");
 	cout << (detection_De_Circuit(graphe, graphe->lSommets->valeur) ? "Il existe un circuit." : "Il n'existe aucun circuit.") << endl;
 
-	cout << endl << "Algorithme de Dijkstra avec le cout :" << endl << dijkstra(graphe, coutArc) << endl << endl;
+	cout << endl << "Algorithme de Dijkstra avec le cout :";
 	system("pause");
+	cout << endl << dijkstra(graphe, coutArc) << endl << endl;
 
-	cout << "Algorithme de Dijkstra avec le temps :" << endl << dijkstra(graphe, tempsArc) << endl;
-	cout << endl << "Fin du programme." << endl;
+	cout << "Algorithme de Dijkstra avec le temps :";
+	system("pause");
+	cout << endl << dijkstra(graphe, tempsArc) << endl;
+
+	cout << endl << endl << "Fin du programme." << endl;
 	system("pause");
 }
