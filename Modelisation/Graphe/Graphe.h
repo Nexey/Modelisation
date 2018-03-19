@@ -25,7 +25,7 @@ public:
     void creeSommet(Sommet* copie);
     Sommet * copieSommet(const Sommet& copie);
 
-	Arc * creeArc(const string& nom, int cout, int temps, Sommet * debut, Sommet * fin);
+	Arc * creeArc(const string& nom, int coutArc, int tempsArc, Sommet * debut, Sommet * fin);
     void creeArc(Arc* copie);
     Arc * copieArc(const Arc& copie, Sommet * debut, Sommet * fin);
 
@@ -86,12 +86,12 @@ Sommet * Graphe::copieSommet(const Sommet& copie) {
 	return sommetCree;
 }
 
-Arc * Graphe::creeArc(const string& nom, int cout, int temps, Sommet * debut, Sommet * fin) {
+Arc * Graphe::creeArc(const string& nom, int coutArc, int tempsArc, Sommet * debut, Sommet * fin) {
 	// ici tester que les 2 sommets sont bien existants dans le graphe
 	if (!Maillon< Sommet >::appartient(debut, lSommets)) throw Erreur("debut d'arc non defini");
 	if (!Maillon< Sommet >::appartient(fin, lSommets)) throw Erreur("fin d'arc non definie");
 
-	Arc *  nouvelArc = new Arc(nom, cout, temps, debut, fin);
+	Arc *  nouvelArc = new Arc(nom, coutArc, tempsArc, debut, fin);
 
 	lArcs = new Maillon< Arc >(nouvelArc, lArcs);
 
