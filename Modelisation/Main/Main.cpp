@@ -35,12 +35,15 @@ int main(int argc, char *argv[]) {
 
 	Graphe *graphe = infosGraphe.creationGraphe();
 	
-	//system("pause");
 	cout << endl << *graphe << endl;
 
-	cout << (aucuneValuationNegative(graphe->lArcs) ? "Il n'y a pas de valuations negatives." : "Il existe au moins une valuation negative.") << endl;
+	//system("pause");
+	cout << (detection_De_Circuit(graphe, graphe->lSommets->valeur) ? "Il existe un circuit." : "Il n'existe aucun circuit.") << endl;
 
-	//cout << dijkstra(graphe, coutArc) << endl << endl;
-	//cout << dijkstra(graphe, tempsArc) << endl;
+	//system("pause");
+	cout << endl << "Algorithme de Dijkstra avec le cout :" << endl << dijkstra(graphe, coutArc) << endl << endl;
+	
+	system("pause");
+	cout << "Algorithme de Dijkstra avec le temps :" << endl << dijkstra(graphe, tempsArc) << endl;
 	system("pause");
 }

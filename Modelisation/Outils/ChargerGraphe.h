@@ -63,7 +63,7 @@ inline void ChargerGraphe::bouclerJusqueLigneVide() {
 	do {
 		getline(this->fichier, ligneTmp);
 		this->ligneActuelle++;
-	} while (ligneTmp != "");
+	} while (ligneTmp != "" && ligneTmp != "sources");
 }
 
 void ChargerGraphe::chargerFichier() {
@@ -143,6 +143,11 @@ void ChargerGraphe::recupereSommets(Graphe *g) {
 		getline(this->fichier, ligneTmp);
 		if (this->ligneTmp != "") {
 			mots = eclater(this->ligneTmp, ' ');
+
+			if (mots.size() == 1) {
+				mots.push_back("0");
+				mots.push_back("0");
+			}
 
 			g->creeSommet(mots[0], std::stoi(mots[1]), std::stoi(mots[2]));
 		}

@@ -7,17 +7,9 @@
 #include "../Graphe/Graphe.h"
 #include "../Outils/Outils.h"
 
-int coutArc(const Arc* a) {
-	return a->coutArc;
-}
-
-int tempsArc(const Arc* a) {
-	return a->tempsArc;
-}
-
-Maillon<Sommet>* dijkstra(const Graphe *g, int(*etiquette)(const Arc*)){
-    if(!aucuneValuationNegative(g->lArcs))
-        return NULL;
+Maillon<Sommet>* dijkstra(const Graphe *g, int(*etiquette)(const Arc*)) {
+	if (!respecteToutesConditions(g))
+		return NULL;
 
 	bool fin = false;
 	Maillon<Arc> *arcs = g->lArcs->suivant;
