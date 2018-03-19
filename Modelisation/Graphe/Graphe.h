@@ -22,12 +22,12 @@ public:
 
 
 	Sommet * creeSommet(const string& nom, int borneInf, int borneSup);
-    	void creeSommet(Sommet* copie);
-    	Sommet * copieSommet(const Sommet& copie);
+    void creeSommet(Sommet* copie);
+    Sommet * copieSommet(const Sommet& copie);
 
 	Arc * creeArc(const string& nom, int cout, int temps, Sommet * debut, Sommet * fin);
-    	void creeArc(Arc* copie);
-    	Arc * copieArc(const Arc& copie, Sommet * debut, Sommet * fin);
+    void creeArc(Arc* copie);
+    Arc * copieArc(const Arc& copie, Sommet * debut, Sommet * fin);
 
 
 #pragma region CONSULTATION

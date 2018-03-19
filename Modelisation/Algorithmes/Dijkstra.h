@@ -18,16 +18,17 @@ bool aucuneValuationNegative(Maillon<Arc> *lArc) {
     return true;
 }
 
-Maillon<Arc>* dijkstra(const Graphe *g, Sommet* debut, int(*etiquette)(const Sommet*)){
+
+Maillon<Arc>* dijkstra(const Graphe *g, Sommet* debut, int(*etiquette)(const Arc*)){
     if(!aucuneValuationNegative(g->lArcs))
         return NULL;
 	int k = 0;
 	bool fin = false;
 	Maillon<Arc> *arcs = g->lArcs->suivant;
 	
-	Maillon<Sommet> * arcTmp;
-	for (; arcTmp; arcTmp)
-		arcTmp->valeur->etiquette = INT_MAX;
+	Maillon<Sommet> * sommetTmp = g->lSommets;
+	for (; sommetTmp; sommetTmp)
+		sommetTmp->valeur->etiquette = INT_MAX;
 
 	Sommet *s = debut;
 	s->etiquette = 0;
@@ -36,16 +37,21 @@ Maillon<Arc>* dijkstra(const Graphe *g, Sommet* debut, int(*etiquette)(const Som
 	//Maillon< pair< Sommet *, Arc* > > *l;
 	Maillon<Arc> *arcsAdjacents;
 	Maillon<Sommet> *sommetsATraiter;
+
 	while (arcs != NULL && !fin) {
 		arcsAdjacents = g->arcsAdjacents(s);
 		
 		for (Maillon<Arc> *l = arcsAdjacents; l; l->suivant) {
 			// Le sommet n'est pas marqué
 			if (sommetsMarques->appartient(l->valeur->fin, sommetsMarques) == NULL)
+
 				// Le sommet n'est pas encore initialisé dans la liste à traiter
 				if (sommetsATraiter->appartient(l->valeur->fin, sommetsATraiter) == NULL) {
 					sommetsATraiter = new Maillon<Sommet>(l->valeur->fin, sommetsATraiter);
-					l->valeur->fin->etiquette = etiquette(l->valeur->fin);
+
+					// Mise à jour de l'étiquette du sommet distant
+					// De base, l'étiquette distante vaut INT_MAX
+					l->valeur->fin->etiquette = min(l->valeur->fin->etiquette, etiquette(l->valeur) + s->etiquette);
 				}
 		}
 
@@ -53,7 +59,9 @@ Maillon<Arc>* dijkstra(const Graphe *g, Sommet* debut, int(*etiquette)(const Som
 
 		arcs = arcs->suivant;
 		sommetsMarques = new Maillon<Sommet>(s, sommetsMarques);
-		s = sommetsATraiter->depiler(sommetsATraiter);
+		
+		if (sommetsATraiter != NULL)
+			s = sommetsATraiter->depiler(sommetsATraiter);
 	}
 }
 
