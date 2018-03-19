@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 	system("pause");
 	cout << endl << dijkstra(graphe, coutArc) << endl << endl;
 
-	cout << "Algorithme de Dijkstra avec le temps :";
+	cout << endl << "Algorithme de Dijkstra avec le temps :";
 	system("pause");
 	cout << endl << dijkstra(graphe, tempsArc) << endl;
 
