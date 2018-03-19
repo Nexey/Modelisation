@@ -14,7 +14,7 @@ public:
 
 	string nom;
 
-    	int etiquette;
+    int etiquette;
 	//info = valuation du sommet : poids arete ascendante + valuation sommmet pere
 	Sommet* pere;
 
