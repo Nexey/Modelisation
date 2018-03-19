@@ -1,47 +1,36 @@
 //
 // Created by Charlotte LANUEL on 19/03/2018.
 //
+#pragma once
+
+
 #include "../Graphe/Graphe.h"
 #include "../Algorithmes/ParcoursDFS.h"
 #include "../Outils/Outils.h"
 
+int avec_cout_Arc(Arc* a){return a->coutArc;}
 
-#ifndef MODELISATION_FORD_H
-#define MODELISATION_FORD_H
-
-bool detection_circuit_negatif(const Graphe *g, Sommet *depart){
-    if(aucuneValuationNegative(g->lArcs))
-        return false;
-
-    for(Maillon<Sommet>*l = g->lSommets; l; l->suivant){
-        Maillon<Sommet>* voisins = NULL;
-        Maillon<Sommet>* SommetsMarques = NULL;
+int avec_temps_Arc(Arc* a){return a->tempsArc;}
 
 
-        SommetsMarques = new Maillon<Sommet>(depart, SommetsMarquesParent);
+bool detection_circuit_negatif(const Graphe *g, Sommet *depart,int(*valuation)(Arc*)){
+    Maillon<Maillon<Arc>>* circuits = recherche_Circuit(g, depart);
+    int valuation;
 
-        //Parcourir tous les voisins;
-        voisins = g->voisins(depart);
-        for(; voisins; voisins = voisins->suivant){
-            //Evite un appel récursif inutile (un simple return true) pour eviter les stack overflow sur les gros graphes
-            if(Maillon<Sommet>::appartient(voisins->valeur, SommetsMarquesParent)){
-                for(Maillon<Arc> *m = g->lArcs; m; m->suivant){
-                    if(m->valeur->fin->equals(voisins->valeur) && (m->valeur->coutArc < 0))
-                        return true;
-                }
-
-            }}
-
-            if(detection_circuit_recursif(g, voisins->valeur, SommetsMarques)){
-                return true;
-            }
+    for(; circuits; circuits = circuits->suivant){
+        valuation = 0;
+        for(; circuits->valeur; circuits->valeur = circuits->valeur->suivant){
+            valuation += valuation(circuits->valeur->valeur);
         }
-        return false;
+        if(valuation < 0) return true;
+
+    }
+    return false;
 }
 
 
-Maillon<Arc> * Ford(const Graphe *g, Sommet *debut, Sommet* fin, int(*etiquette)(const Arc*)){
-    if(!detection_circuit_negatif((g, debut, )))
+Maillon<Arc> * Ford(const Graphe *g, Sommet *debut, Sommet* fin, int(*valuation)(Arc*)= &avec_cout_Arc){
+    if(!detection_circuit_negatif(g, debut))
         std::cerr << "L'algorithme n'est pas applicable car un circuit negatif est present" << endl;
 
     Maillon<Sommet>* sommetATraiter = g->lSommets;
@@ -60,7 +49,7 @@ Maillon<Arc> * Ford(const Graphe *g, Sommet *debut, Sommet* fin, int(*etiquette)
         for(; sommetATraiter; sommetATraiter = sommetATraiter->suivant) {
             adj = g->adjacences(sommetATraiter->valeur);
             for (; adj; adj->suivant) {
-                int coutSommetPlusArc = adj->valeur->first->etiquette + adj->valeur->second->coutArc;
+                int coutSommetPlusArc = adj->valeur->first->etiquette + valuation(adj->valeur->second);
                 int coutAModifier = adj->valeur->second->fin->etiquette;
                 if (coutSommetPlusArc < coutAModifier) {
                     adj->valeur->second->fin->etiquette = coutSommetPlusArc;
@@ -97,5 +86,3 @@ Maillon<Arc> * Ford(const Graphe *g, Sommet *debut, Sommet* fin, int(*etiquette)
 
 }
 
-
-#endif //MODELISATION_FORD_H
