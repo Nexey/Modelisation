@@ -27,7 +27,7 @@ void recherche_Circuit_Recursif(Graphe* g, Sommet* actuel, liste_circuits* &list
 //Retourne la composante connexe depuis le sommet Depart
 Graphe* parcours_DFS(Graphe* g, Sommet* depart = nullptr){
         if(depart == nullptr) depart = g->lSommets->valeur;
-        Graphe* gRetour =  new Graphe()
+        Graphe* gRetour =  new Graphe();
         mettre_a_zero(g);
 
         DFS_recursif(g, depart, gRetour);
@@ -148,7 +148,7 @@ void recherche_Circuit_Recursif(Graphe* g, Sommet* actuel, liste_circuits* &list
                 if(adjacence->valeur->first->etiquette == 1)
                         //Si il est ouvert, c'est que adjacence->second est une arete remontante (= cycle)
                         //Le sommet adjacence->first est donc le début de ce cycle dans l'ordre de parcour
-                        liste = new liste_circuits(new pair<Sommet*, Maillon<Arc>*>(adjacence->valeur->first, new Maillon<Arc>(adjacence->valeur->second, nullptr)));
+                        liste = new liste_circuits(new pair<Sommet*, Maillon<Arc>*>(adjacence->valeur->first, new Maillon<Arc>(adjacence->valeur->second, nullptr)), liste);
         }
 
         liste_circuits* tmp = liste;
