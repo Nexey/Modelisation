@@ -9,14 +9,6 @@ int tempsArc(const Arc* a) {
 	return a->tempsArc;
 }
 
-int binfSommet(const Sommet* s) {
-	return s->inf;
-}
-
-int bsupSommet(const Sommet* s) {
-	return s->sup;
-}
-
 // Renvoie true si il existe une valuation négative
 bool aucuneValuationNegative(const Arc *a) {
 	return (a->coutArc >= 0 && a->tempsArc >= 0);

@@ -37,13 +37,14 @@ int main(int argc, char *argv[]) {
 	
 	cout << endl << *graphe << endl;
 
-	//system("pause");
+	cout << "Algorithme de detection de circuit :" << endl;
+	system("pause");
 	cout << (detection_De_Circuit(graphe, graphe->lSommets->valeur) ? "Il existe un circuit." : "Il n'existe aucun circuit.") << endl;
 
-	//system("pause");
 	cout << endl << "Algorithme de Dijkstra avec le cout :" << endl << dijkstra(graphe, coutArc) << endl << endl;
-	
 	system("pause");
+
 	cout << "Algorithme de Dijkstra avec le temps :" << endl << dijkstra(graphe, tempsArc) << endl;
+	cout << endl << "Fin du programme." << endl;
 	system("pause");
 }
