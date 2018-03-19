@@ -3,7 +3,7 @@
 #include "../Graphe/Graphe.h"
 
 //Retourne la composante connexe depuis le sommet Depart
-void DFS_recursif(const Graphe* g, const Sommet* depart, Graphe* gRetour);
+void DFS_recursif(const Graphe* g, Sommet* depart, Graphe* gRetour);
 Graphe* parcours_DFS(const Graphe* g, Sommet* depart = NULL){
 	Graphe* gRetour =  new Graphe();
 	if(depart==NULL) depart = g->lSommets->valeur;
@@ -14,7 +14,7 @@ Graphe* parcours_DFS(const Graphe* g, Sommet* depart = NULL){
 }
 
 //Les sommets marqués seront les sommets dans le graphe de retour (qui sera la composante connexe)
-void DFS_recursif(const Graphe* g, Sommet* depart, Graphe* gRetour){
+void DFS_recursif(const Graphe* g, Sommet* depart, Graphe* gRetour) {
 	bool dejaMarque;
 	Maillon<pair<Sommet*, Arc*>>* adjacence = NULL;
 	//On marque le sommet actuel en l'ajoutant au graphe

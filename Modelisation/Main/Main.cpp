@@ -1,5 +1,5 @@
 #include "../Outils/ChargerGraphe.h"
-//#include "../Algorithmes/ParcoursDFS.h"
+#include "../Algorithmes/ParcoursDFS.h"
 #include "../Algorithmes/Dijkstra.h"
 #include <string>
 #include <iostream>
@@ -26,8 +26,8 @@ int main(int argc, char *argv[]) {
 		do {
 			cout << "Entrez le numero du fichier a tester [1 - " << v.size() << "]\t";
 			cin >> choix;
-			if (choix < 1 || choix >= v.size()) cout << "Le numero doit etre compris entre 0 et " << v.size() << "." << endl;
-		} while (choix < 1 || choix >= v.size());
+			if (choix < 1 || choix > v.size()) cout << "Le numero doit etre compris entre 1 et " << v.size() << "." << endl;
+		} while (choix < 1 || choix > v.size());
 
 		chemin = v[choix - 1];
 	}
@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 	//system("pause");
 	cout << endl << *graphe << endl;
 
-	//cout << (aucuneValuationNegative(graphe->lArcs) ? "Il n'y a pas de valuations negatives." : "Il existe au moins une valuation negative.") << endl;
+	cout << (aucuneValuationNegative(graphe->lArcs) ? "Il n'y a pas de valuations negatives." : "Il existe au moins une valuation negative.") << endl;
 
 	//cout << dijkstra(graphe, coutArc) << endl << endl;
 	//cout << dijkstra(graphe, tempsArc) << endl;
