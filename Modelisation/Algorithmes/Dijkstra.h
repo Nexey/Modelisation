@@ -40,14 +40,20 @@ Maillon<Arc>* dijkstra(const Graphe *g, Sommet* debut, int(*etiquette)(const Som
 		arcsAdjacents = g->arcsAdjacents(s);
 		
 		for (Maillon<Arc> *l = arcsAdjacents; l; l->suivant) {
-			sommetsATraiter = new Maillon<Sommet>(l->valeur->fin, sommetsATraiter);
-			l->valeur->fin->etiquette = etiquette(l->valeur->fin);
+			// Le sommet n'est pas marqué
+			if (sommetsMarques->appartient(l->valeur->fin, sommetsMarques) == NULL)
+				// Le sommet n'est pas encore initialisé dans la liste à traiter
+				if (sommetsATraiter->appartient(l->valeur->fin, sommetsATraiter) == NULL) {
+					sommetsATraiter = new Maillon<Sommet>(l->valeur->fin, sommetsATraiter);
+					l->valeur->fin->etiquette = etiquette(l->valeur->fin);
+				}
 		}
 
 
 
 		arcs = arcs->suivant;
 		sommetsMarques = new Maillon<Sommet>(s, sommetsMarques);
+		s = sommetsATraiter->depiler(sommetsATraiter);
 	}
 }
 
