@@ -30,8 +30,8 @@ class ChargerGraphe {
 	inline void atteindreChaine(const std::string&);
 	inline void atteindreLigne(const unsigned&);
 
-	void split(const string &s, char delim, vector<string> &elems);
-	vector<string> split(const string &s, char delim);
+	void eclater(const std::string &s, char delim, vector<std::string> &elems);
+	vector<string> eclater(const std::string &s, char delim);
 
 	template<class T>
 	inline void bouclerSurLigne(bool(*condition) (const T &, const T  &), const T &a, const T  &b);
@@ -115,25 +115,25 @@ void ChargerGraphe::initPositionsLignes() {
 	this->ligneArcs = this->ligneActuelle;
 }
 
-void ChargerGraphe::split(const string &s, char delim, vector<string> &elems) {
-	stringstream ss(s);
-	string item;
-	while (getline(ss, item, delim)) {
-		if (item != "")
-			elems.push_back(item);
+void ChargerGraphe::eclater(const std::string &ligne, char delim, vector<std::string> &mots) {
+	stringstream ligneStream(ligne);
+	std::string mot;
+	while (getline(ligneStream, mot, delim)) {
+		if (mot != "")
+			mots.push_back(mot);
 	}
 }
 
-vector<string> ChargerGraphe::split(const string &s, char delim) {
-	vector<string> elems;
-	split(s, delim, elems);
-	return elems;
+vector<std::string> ChargerGraphe::eclater(const std::string &ligne, char delim) {
+	vector<std::string> mots;
+	eclater(ligne, delim, mots);
+	return mots;
 }
 
 void ChargerGraphe::recupereSommets(Graphe *g) {
 	this->atteindreLigne(this->ligneSommets);
 	getline(this->fichier, this->ligneTmp);
-	vector<string> ligne;
+	vector<std::string> mots;
 
 	this->bouclerJusqueLigneVide();
 	unsigned numLigne = this->ligneActuelle - 1;
@@ -142,15 +142,15 @@ void ChargerGraphe::recupereSommets(Graphe *g) {
 		this->atteindreLigne(numLigne);
 		getline(this->fichier, ligneTmp);
 		if (this->ligneTmp != "") {
-			ligne = split(this->ligneTmp, ' ');
+			mots = eclater(this->ligneTmp, ' ');
 
-			g->creeSommet(ligne[0], std::stoi(ligne[1]), std::stoi(ligne[2]));
+			g->creeSommet(mots[0], std::stoi(mots[1]), std::stoi(mots[2]));
 		}
 		numLigne--;
 	} while (numLigne >= this->ligneSommets);
 }
 
-Sommet *ChargerGraphe::recupereSommet(Maillon<Sommet> *lSommets, const string nom) {
+Sommet *ChargerGraphe::recupereSommet(Maillon<Sommet> *lSommets, const std::string nom) {
 	if (lSommets->valeur->nom == nom)
 		return lSommets->valeur;
 	else
@@ -159,15 +159,15 @@ Sommet *ChargerGraphe::recupereSommet(Maillon<Sommet> *lSommets, const string no
 
 inline void ChargerGraphe::recupereArcs(Graphe *g) {
 	this->atteindreLigne(this->ligneArcs);
-	vector<string> ligne;
+	vector<std::string> mots;
 	do {
 		getline(this->fichier, ligneTmp);
 		if (this->ligneTmp != "") {
-			ligne = split(this->ligneTmp, ' ');
+			mots = eclater(this->ligneTmp, ' ');
 
-			g->creeArc(ligne[0], std::stoi(ligne[3]), std::stoi(ligne[4]),
-				recupereSommet(g->lSommets, ligne[1]),
-				recupereSommet(g->lSommets, ligne[2])
+			g->creeArc(mots[0], std::stoi(mots[3]), std::stoi(mots[4]),
+				recupereSommet(g->lSommets, mots[1]),
+				recupereSommet(g->lSommets, mots[2])
 			);
 		}
 	} while (this->ligneTmp != "");

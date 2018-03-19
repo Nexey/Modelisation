@@ -1,0 +1,7 @@
+sectionSommets
+s0  0  	0
+p0 	50 	68
+
+sectionArcs
+arc1  s0  p0  4  7
+arc2  p0  s0  18  20

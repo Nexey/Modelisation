@@ -120,6 +120,7 @@
     <ClInclude Include="Graphe\Maillon.h" />
     <ClInclude Include="Main\Erreur.h" />
     <ClInclude Include="Outils\ChargerGraphe.h" />
+    <ClInclude Include="Parcours\ParcoursDFS.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main\Main.cpp" />
