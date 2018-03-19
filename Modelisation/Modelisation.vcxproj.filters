@@ -39,13 +39,13 @@
     <ClInclude Include="Graphe\ElementsGraphe.h">
       <Filter>Fichiers d%27en-tête\Graphe</Filter>
     </ClInclude>
-    <ClInclude Include="Parcours\ParcoursDFS.h">
-      <Filter>Fichiers d%27en-tête\Parcours</Filter>
-    </ClInclude>
     <ClInclude Include="Graphe\Maillon.h">
       <Filter>Fichiers d%27en-tête\Graphe</Filter>
     </ClInclude>
     <ClInclude Include="Algorithmes\Dijkstra.h">
+      <Filter>Fichiers d%27en-tête\Parcours</Filter>
+    </ClInclude>
+    <ClInclude Include="Algorithmes\ParcoursDFS.h">
       <Filter>Fichiers d%27en-tête\Parcours</Filter>
     </ClInclude>
   </ItemGroup>

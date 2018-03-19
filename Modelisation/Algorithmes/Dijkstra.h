@@ -6,65 +6,75 @@
 
 #include "../Graphe/Graphe.h"
 
-#ifndef MODELISATION_DIJKSTRA_H
-#define MODELISATION_DIJKSTRA_H
-
 bool aucuneValuationNegative(Maillon<Arc> *lArc) {
     if (lArc != NULL) {
-        if (lArc->valeur->cout < 0 || lArc->valeur->temps < 0) return false;
+        if (lArc->valeur->coutArc < 0 || lArc->valeur->tempsArc < 0) return false;
         return aucuneValuationNegative(lArc->suivant);
     }
     // On est arrive a la fin de la liste des arcs, donc on peut renvoyer true
     return true;
 }
 
+int coutArc(const Arc* a) {
+	return a->coutArc;
+}
 
-Maillon<Arc>* dijkstra(const Graphe *g, Sommet* debut, int(*etiquette)(const Arc*)){
+int tempsArc(const Arc* a) {
+	return a->tempsArc;
+}
+
+Maillon<Sommet>* dijkstra(const Graphe *g, int(*etiquette)(const Arc*)){
     if(!aucuneValuationNegative(g->lArcs))
         return NULL;
-	int k = 0;
+
 	bool fin = false;
 	Maillon<Arc> *arcs = g->lArcs->suivant;
 	
-	Maillon<Sommet> * sommetTmp = g->lSommets;
-	for (; sommetTmp; sommetTmp)
+	Maillon<Sommet> * sommetTmp = new Maillon<Sommet>(*g->lSommets);
+	for (; sommetTmp; sommetTmp = sommetTmp->suivant)
 		sommetTmp->valeur->etiquette = INT_MAX;
 
-	Sommet *s = debut;
+	Sommet *s = g->lSommets->valeur;
 	s->etiquette = 0;
 
-	Maillon<Sommet> *sommetsMarques;
+	Maillon<Sommet> *sommetsMarques = NULL;
+	sommetsMarques = new Maillon<Sommet>(s, sommetsMarques);
 	//Maillon< pair< Sommet *, Arc* > > *l;
 	Maillon<Arc> *arcsAdjacents;
 	Maillon<Sommet> *sommetsATraiter;
 
 	while (arcs != NULL && !fin) {
 		arcsAdjacents = g->arcsAdjacents(s);
+		sommetsATraiter = NULL;
 		
-		for (Maillon<Arc> *l = arcsAdjacents; l; l->suivant) {
+		for (Maillon<Arc> *l = arcsAdjacents; l; l = l->suivant) {
 			// Le sommet n'est pas marqué
-			if (sommetsMarques->appartient(l->valeur->fin, sommetsMarques) == NULL)
-
-				// Le sommet n'est pas encore initialisé dans la liste à traiter
+			if (sommetsMarques->appartient(l->valeur->fin, sommetsMarques) == NULL) {
 				if (sommetsATraiter->appartient(l->valeur->fin, sommetsATraiter) == NULL) {
+
 					sommetsATraiter = new Maillon<Sommet>(l->valeur->fin, sommetsATraiter);
 
 					// Mise à jour de l'étiquette du sommet distant
 					// De base, l'étiquette distante vaut INT_MAX
 					l->valeur->fin->etiquette = min(l->valeur->fin->etiquette, etiquette(l->valeur) + s->etiquette);
 				}
+			}
 		}
 
-
-
 		arcs = arcs->suivant;
-		sommetsMarques = new Maillon<Sommet>(s, sommetsMarques);
 		
-		if (sommetsATraiter != NULL)
+		if (sommetsATraiter != NULL) {
 			s = sommetsATraiter->depiler(sommetsATraiter);
+			for (; sommetsATraiter; sommetsATraiter = sommetsATraiter->suivant) {
+				if (s->etiquette > sommetsATraiter->valeur->etiquette)
+					s = sommetsATraiter->valeur;
+			}
+		}
+
+		fin = s->etiquette == INT_MAX;
+		if (!fin)
+			if (sommetsMarques->appartient(s, sommetsMarques) == NULL) 
+				sommetsMarques = new Maillon<Sommet>(s, sommetsMarques);
 	}
+	return sommetsMarques;
 }
-
-
-
-#endif //MODELISATION_DIJKSTRA_H

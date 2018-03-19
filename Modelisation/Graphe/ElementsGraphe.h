@@ -35,18 +35,18 @@ private:
 public:
 	Sommet * debut, *fin;
 
-	int cout;
-	int temps;
+	int coutArc;
+	int tempsArc;
 
 	string nom;
 
-	Arc(const string& nom, int cout, int temps, Sommet * debut, Sommet * fin) : nom(nom), cout(cout), temps(temps), debut(debut), fin(fin) {
+	Arc(const string& nom, int coutArc, int tempsArc, Sommet * debut, Sommet * fin) : nom(nom), coutArc(coutArc), tempsArc(tempsArc), debut(debut), fin(fin) {
 		debut->degre++;
 		fin->degre++;
 		debut->pere = fin;
 	}
 
-    	Arc(const Arc& copie, Sommet* newDebut, Sommet* newFin): nom(copie.nom), cout(copie.cout), temps(copie.temps), debut(newDebut), fin(newFin){
+    	Arc(const Arc& copie, Sommet* newDebut, Sommet* newFin): nom(copie.nom), coutArc(copie.coutArc), tempsArc(copie.tempsArc), debut(newDebut), fin(newFin){
 
 	}
 
@@ -78,8 +78,8 @@ Arc::operator string () const {
 	ostringstream oss;
 	oss << "Arc[";
 	oss << "nom: " << nom << ";   ";
-	oss << "cout: " << cout << ";   ";
-	oss << "temps: " << temps << ";   ";
+	oss << "cout: " << coutArc << ";   ";
+	oss << "temps: " << tempsArc << ";   ";
 	oss << "debut: " << *debut << ";   ";
 	oss << "fin: " << *fin;
 	oss << "]";
