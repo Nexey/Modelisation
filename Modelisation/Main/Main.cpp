@@ -4,9 +4,8 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-	string chemin(detectionChemin(argc, argv));
 
-	ChargerGraphe infosGraphe(chemin);
+	ChargerGraphe infosGraphe(detectionChemin(argc, argv));
 
 	Graphe *graphe = infosGraphe.creationGraphe();
 	
