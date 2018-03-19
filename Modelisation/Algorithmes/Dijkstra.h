@@ -1,7 +1,3 @@
-//
-// Created by Charlotte LANUEL on 18/03/2018.
-//
-
 #pragma once
 
 #include "../Graphe/Graphe.h"
