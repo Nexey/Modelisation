@@ -2,6 +2,7 @@
 
 #include "../Graphe/Graphe.h"
 #include "../Outils/Outils.h"
+#include <limits.h>
 
 Maillon<Sommet>* dijkstra(const Graphe *g, int(*etiquette)(const Arc*)) {
 	if (!respecteToutesConditions(g))
@@ -19,7 +20,7 @@ Maillon<Sommet>* dijkstra(const Graphe *g, int(*etiquette)(const Arc*)) {
 
 	Maillon<Sommet> *sommetsMarques = NULL;
 	sommetsMarques = new Maillon<Sommet>(s, sommetsMarques);
-	//Maillon< pair< Sommet *, Arc* > > *l;
+
 	Maillon<Arc> *arcsAdjacents;
 	Maillon<Sommet> *sommetsATraiter;
 

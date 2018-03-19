@@ -40,8 +40,37 @@ bool detection_circuit_negatif(const Graphe *g, Sommet *depart, Maillon<Sommet>*
 }
 
 
-Maillon<Arc> Ford(const Graphe *g, Sommet *debut, int(*etiquette)(const Arc*)){
+Maillon<Sommet> * Ford(const Graphe *g, Sommet *debut, int(*etiquette)(const Arc*)){
     if(!detection_circuit_negatif((g, debut, )))
+        std::cerr << "L'algorithme n'est pas applicable car un circuit négatif est présent" << endl;
+
+    sommetATraiter = new Maillon<Sommet>(g->lSommets);
+
+    for(; sommetATraiter; sommetATraiter = sommetATraiter->suivant)
+        sommetATraiter->valeur->etiquette = INT8_MAX;
+
+    debut->etiquette = 0;
+    Maillon<Sommet> sommetsMarques;
+    sommetsMarques = new Maillon<Sommet>(debut, sommetsMarques);
+
+    do{
+        Maillon<Arc> adj = g->adjacences(sommetATraiter->valeur);
+        for(; adj; adj->suivant){
+            int coutSommetPlusArc = sommetTraiter->valeur->etiquette + adj->valeur->coutArc;
+            int coutAModifier = sommetATraiter->suivant->valeur->etiquette;
+            if(coutSommetPlusArc < coutAModifier)
+                sommetATraiter->suivant->valeur->etiquette = coutSommetPlusArc;
+        }
+
+        for(; adj; adj->suivant){
+
+        }
+
+        sommetATraiter = sommetATraiter->suivant;
+    }while(sommetATraiter->suivant != NULL);
+
+
+
 }
 
 

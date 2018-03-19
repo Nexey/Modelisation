@@ -1,5 +1,32 @@
 #pragma once
 #include "../Graphe/Graphe.h"
+#include <iostream>
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+using namespace std;
+
+string detectionChemin(int argc, char *argv[]) {
+	vector<string> v;
+
+	if (argc > 1) return argv[1];
+	else {
+		string path = "./Data";
+		for (auto & p : fs::directory_iterator(path))
+			v.push_back(p.path().string());
+
+		for (unsigned i = 0; i < v.size(); i++)
+			cout << i + 1 << ")\t" << v[i] << endl;
+
+		unsigned choix;
+		do {
+			cout << "Entrez le numero du fichier a tester [1 - " << v.size() << "]\t";
+			cin >> choix;
+			if (choix < 1 || choix > v.size()) cout << "Le numero doit etre compris entre 1 et " << v.size() << "." << endl;
+		} while (choix < 1 || choix > v.size());
+
+		return v[choix - 1];
+	}
+}
 
 int coutArc(const Arc* a) {
 	return a->coutArc;
@@ -7,14 +34,6 @@ int coutArc(const Arc* a) {
 
 int tempsArc(const Arc* a) {
 	return a->tempsArc;
-}
-
-int binfSommet(const Sommet* s) {
-	return s->inf;
-}
-
-int bsupSommet(const Sommet* s) {
-	return s->sup;
 }
 
 // Renvoie true si il existe une valuation négative
