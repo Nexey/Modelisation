@@ -19,7 +19,6 @@ public:
 	Sommet(const string& nom, int borneInf, int borneSup) : degre(0), nom(nom), inf(borneInf), sup(borneSup) {}
 
 	operator string () const;
-
 };
 
 
@@ -72,7 +71,6 @@ Arc::operator string () const {
 	oss << "fin: " << *fin;
 	oss << "]";
 	return oss.str();
-
 }
 
 ostream & operator << (ostream & os, const Arc& arc) {
