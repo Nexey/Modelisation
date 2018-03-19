@@ -13,10 +13,14 @@ public:
 	int sup;
 
 	string nom;
+
+    	int etiquette;
 	//info = valuation du sommet : poids arete ascendante + valuation sommmet pere
 	Sommet* pere;
 
 	Sommet(const string& nom, int borneInf, int borneSup) : degre(0), nom(nom), inf(borneInf), sup(borneSup) {}
+
+    	Sommet(const Sommet& copie):degre(0), nom(copie.nom), inf(copie.inf), sup(copie.sup){}
 
 	operator string () const;
 
@@ -24,6 +28,11 @@ public:
 
 
 class Arc {
+private:
+    //Interdiction de la construction par copie
+    //(les sommets debut et fin ne peuvent pas être ceux de l'Arc "copie"
+    //ni créer 2 sommets qui ne corresponderont à rien
+    Arc(const Arc& copie){}
 public:
 	Sommet * debut, *fin;
 
@@ -36,6 +45,10 @@ public:
 		debut->degre++;
 		fin->degre++;
 		debut->pere = fin;
+	}
+
+    	Arc(const Arc& copie, Sommet* newDebut, Sommet* newFin): nom(copie.nom), cout(copie.cout), temps(copie.temps), debut(newDebut), fin(newFin){
+
 	}
 
 	~Arc() { debut->degre--; fin->degre--; }
