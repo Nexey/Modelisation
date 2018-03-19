@@ -9,7 +9,7 @@
 #ifndef MODELISATION_FORD_H
 #define MODELISATION_FORD_H
 
-bool detection_circuit_negatif(const Graphe *g, Sommet *depart, Maillon<Sommet>* SommetsMarquesParent){
+bool detection_circuit_negatif(const Graphe *g, Sommet *depart){
     if(aucuneValuationNegative(g->lArcs))
         return false;
 
@@ -40,35 +40,59 @@ bool detection_circuit_negatif(const Graphe *g, Sommet *depart, Maillon<Sommet>*
 }
 
 
-Maillon<Sommet> * Ford(const Graphe *g, Sommet *debut, int(*etiquette)(const Arc*)){
+Maillon<Arc> * Ford(const Graphe *g, Sommet *debut, Sommet* fin, int(*etiquette)(const Arc*)){
     if(!detection_circuit_negatif((g, debut, )))
-        std::cerr << "L'algorithme n'est pas applicable car un circuit négatif est présent" << endl;
+        std::cerr << "L'algorithme n'est pas applicable car un circuit negatif est present" << endl;
 
-    sommetATraiter = new Maillon<Sommet>(g->lSommets);
+    Maillon<Sommet>* sommetATraiter = g->lSommets;
+    Maillon<Sommet>* prochainSommetATraiter = new Maillon<Sommet>(debut, nullptr);
+    Maillon<pair<Sommet*,Arc*>>* adj;
 
     for(; sommetATraiter; sommetATraiter = sommetATraiter->suivant)
         sommetATraiter->valeur->etiquette = INT8_MAX;
 
     debut->etiquette = 0;
-    Maillon<Sommet> sommetsMarques;
-    sommetsMarques = new Maillon<Sommet>(debut, sommetsMarques);
 
     do{
-        Maillon<Arc> adj = g->adjacences(sommetATraiter->valeur);
-        for(; adj; adj->suivant){
-            int coutSommetPlusArc = sommetTraiter->valeur->etiquette + adj->valeur->coutArc;
-            int coutAModifier = sommetATraiter->suivant->valeur->etiquette;
-            if(coutSommetPlusArc < coutAModifier)
-                sommetATraiter->suivant->valeur->etiquette = coutSommetPlusArc;
+        sommetATraiter = prochainSommetATraiter;
+        prochainSommetATraiter = nullptr;
+
+        for(; sommetATraiter; sommetATraiter = sommetATraiter->suivant) {
+            adj = g->adjacences(sommetATraiter->valeur);
+            for (; adj; adj->suivant) {
+                int coutSommetPlusArc = adj->valeur->first->etiquette + adj->valeur->second->coutArc;
+                int coutAModifier = adj->valeur->second->fin->etiquette;
+                if (coutSommetPlusArc < coutAModifier) {
+                    adj->valeur->second->fin->etiquette = coutSommetPlusArc;
+                    prochainSommetATraiter = new Maillon<Sommet>(adj->valeur->second->fin, prochainSommetATraiter);
+                }
+            }
         }
 
-        for(; adj; adj->suivant){
+    }while(prochainSommetATraiter);
 
+
+    Maillon<Arc>* chemin = nullptr;
+    bool continuer = true;
+    Sommet* actuel = debut;
+    Arc* arcActuel = nullptr;
+    int min;
+
+
+    while (actuel != fin){
+        adj = g->adjacences(actuel);
+        min = INT8_MAX;
+        for (; adj; adj->suivant) {
+            if(adj->valeur->first->etiquette < min){
+                min = adj->valeur->first->etiquette;
+                arcActuel = adj->valeur->second;
+            }
         }
+        chemin = new Maillon<Arc>(arcActuel, chemin);
+        actuel = arcActuel->fin;
+    }
 
-        sommetATraiter = sommetATraiter->suivant;
-    }while(sommetATraiter->suivant != NULL);
-
+    return chemin;
 
 
 }
