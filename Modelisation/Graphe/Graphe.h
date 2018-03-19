@@ -22,7 +22,12 @@ public:
 
 
 	Sommet * creeSommet(const string& nom, int borneInf, int borneSup);
+    	void creeSommet(Sommet* copie);
+    	Sommet * copieSommet(const Sommet& copie);
+
 	Arc * creeArc(const string& nom, int cout, int temps, Sommet * debut, Sommet * fin);
+    	void creeArc(Arc* copie);
+    	Arc * copieArc(const Arc& copie, Sommet * debut, Sommet * fin);
 
 
 #pragma region CONSULTATION
@@ -71,7 +76,15 @@ Sommet * Graphe::creeSommet(const string& nom, int borneInf, int borneSup) {
 
 	return sommetCree;
 }
+void Graphe::creeSommet(Sommet* copie) {
+	lSommets = new Maillon< Sommet >(copie, lSommets);
+}
+Sommet * Graphe::copieSommet(const Sommet& copie) {
+	Sommet * sommetCree = new Sommet(copie);
+	lSommets = new Maillon< Sommet >(sommetCree, lSommets);
 
+	return sommetCree;
+}
 
 Arc * Graphe::creeArc(const string& nom, int cout, int temps, Sommet * debut, Sommet * fin) {
 	// ici tester que les 2 sommets sont bien existants dans le graphe
@@ -79,6 +92,26 @@ Arc * Graphe::creeArc(const string& nom, int cout, int temps, Sommet * debut, So
 	if (!Maillon< Sommet >::appartient(fin, lSommets)) throw Erreur("fin d'arc non definie");
 
 	Arc *  nouvelArc = new Arc(nom, cout, temps, debut, fin);
+
+	lArcs = new Maillon< Arc >(nouvelArc, lArcs);
+
+	return nouvelArc;
+}
+void Graphe::creeArc(Arc* copie) {
+	Sommet* debut = copie->debut;
+	Sommet* fin = copie->fin;
+	// ici tester que les 2 sommets sont bien existants dans le graphe
+	if (!Maillon< Sommet >::appartient(debut, lSommets)) throw Erreur("debut d'arc non defini");
+	if (!Maillon< Sommet >::appartient(fin, lSommets)) throw Erreur("fin d'arc non definie");
+
+	lArcs = new Maillon< Arc >(copie, lArcs);
+}
+Arc * Graphe::copieArc(const Arc& copie, Sommet * debut, Sommet * fin) {
+	// ici tester que les 2 sommets sont bien existants dans le graphe
+	if (!Maillon< Sommet >::appartient(debut, lSommets)) throw Erreur("debut d'arc non defini");
+	if (!Maillon< Sommet >::appartient(fin, lSommets)) throw Erreur("fin d'arc non definie");
+
+	Arc *  nouvelArc = new Arc(copie, debut, fin);
 
 	lArcs = new Maillon< Arc >(nouvelArc, lArcs);
 
