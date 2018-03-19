@@ -8,9 +8,6 @@
 using namespace std;
 
 template<class Type>
-Type max(const Type &a, const Type &b) { return a > b ? a : b; }
-
-template<class Type>
 Type minimum(const Type &a, const Type &b) { return a < b ? a : b; }
 
 template <class Type>
