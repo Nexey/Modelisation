@@ -132,6 +132,7 @@ Maillon<Maillon<Arc>>* recherche_Circuit(Graphe* g, Sommet* depart = nullptr){
         for(;liste; liste = liste->suivant){
                 res = new Maillon<Maillon<Arc>>(liste->valeur->second, res);
         }
+		return res;
 }
 
 void recherche_Circuit_Recursif(Graphe* g, Sommet* actuel, liste_circuits* &liste){

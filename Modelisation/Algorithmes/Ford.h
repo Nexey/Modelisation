@@ -13,14 +13,14 @@ int avec_cout_Arc(Arc* a){return a->coutArc;}
 int avec_temps_Arc(Arc* a){return a->tempsArc;}
 
 
-bool detection_circuit_negatif(const Graphe *g, Sommet *depart,int(*valuation)(Arc*)){
+bool detection_circuit_negatif(Graphe *g, Sommet *depart,int(*valuation)(Arc*)){
     Maillon<Maillon<Arc>>* circuits = recherche_Circuit(g, depart);
-    int valuation;
+    int val;
 
     for(; circuits; circuits = circuits->suivant){
-        valuation = 0;
+		val = 0;
         for(; circuits->valeur; circuits->valeur = circuits->valeur->suivant){
-            valuation += valuation(circuits->valeur->valeur);
+			val += valuation(circuits->valeur->valeur);
         }
         if(valuation < 0) return true;
 
@@ -29,9 +29,14 @@ bool detection_circuit_negatif(const Graphe *g, Sommet *depart,int(*valuation)(A
 }
 
 
-Maillon<Arc> * Ford(const Graphe *g, Sommet *debut, Sommet* fin, int(*valuation)(Arc*)= &avec_cout_Arc){
-    if(!detection_circuit_negatif(g, debut))
+Maillon<Arc> * Ford(Graphe *g, Sommet *debut, int(*valuation)(Arc*)= &avec_cout_Arc){
+    if(!detection_circuit_negatif(g, debut, valuation))
         std::cerr << "L'algorithme n'est pas applicable car un circuit negatif est present" << endl;
+
+	Maillon<Sommet> *lTmp = g->lSommets;
+	Sommet *fin = NULL;
+	for (; lTmp; lTmp = lTmp->suivant)
+		fin = lTmp->valeur;
 
     Maillon<Sommet>* sommetATraiter = g->lSommets;
     Maillon<Sommet>* prochainSommetATraiter = new Maillon<Sommet>(debut, nullptr);
