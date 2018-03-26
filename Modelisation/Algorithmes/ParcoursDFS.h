@@ -13,13 +13,17 @@ void mettre_a_zero(Graphe* g){
 }
 
 //Utile dans la fonction de recherche de circuit
+//Une chaine de Pair< sommet, arc>
+//la chaine d'arc représente un circuit.
+//Or un circuit est detecté avec une arete remontante, je stocke donc ce sommet père de l'arete remontante
+//dans le PAIR pour pouvoir terminer ce circuit.
 typedef Maillon<pair<Sommet*, Maillon <Arc>*>> liste_circuits;
 
 //Definitions pour les appels de fonction.
 void DFS_recursif(Graphe* g, Sommet* actuel, Graphe* gRetour);
 bool existe_Chemin_Recursif(Graphe* g, Sommet* s1, Sommet* s2);
 bool  detection_circuit_recursif(Graphe* g, Sommet* actuel);
-void recherche_Circuit_Recursif(Graphe* g, Sommet* actuel, liste_circuits* &liste);
+liste_circuits* recherche_Circuit_Recursif(Graphe* g, Sommet* actuel);
 
 
 
@@ -124,9 +128,7 @@ bool detection_circuit_recursif(Graphe*  g, Sommet* actuel){
 Maillon<Maillon<Arc>>* recherche_Circuit(Graphe* g, Sommet* depart = nullptr){
         if(depart == nullptr) depart = g->lSommets->valeur;
         mettre_a_zero(g);
-        liste_circuits* liste;
-
-        recherche_Circuit_Recursif(g, depart, liste);
+        liste_circuits* liste = recherche_Circuit_Recursif(g, depart);
 
         Maillon<Maillon<Arc>>* res = nullptr;
         for(;liste; liste = liste->suivant){
@@ -135,30 +137,42 @@ Maillon<Maillon<Arc>>* recherche_Circuit(Graphe* g, Sommet* depart = nullptr){
 		return res;
 }
 
-void recherche_Circuit_Recursif(Graphe* g, Sommet* actuel, liste_circuits* &liste){
+liste_circuits* recherche_Circuit_Recursif(Graphe* g, Sommet* actuel){
         Maillon<pair<Sommet*, Arc*>>* adjacence = nullptr;
         actuel->etiquette = 1;
+        liste_circuits* tmp = nullptr;
+        liste_circuits* tmp2 = nullptr;
+        liste_circuits* liste = nullptr;
 
         adjacence = g->adjacences(actuel);
         for(; adjacence; adjacence = adjacence->suivant){
 
-                if(adjacence->valeur->first->etiquette == 0)
-                        //Si il n'est pas visité on fait la recursion
-                        recherche_Circuit_Recursif(g, adjacence->valeur->first, liste);
+                //Si il n'est pas visité on fait la recursion
+                if(adjacence->valeur->first->etiquette == 0) {
+                        tmp2 = recherche_Circuit_Recursif(g, adjacence->valeur->first);
+                        for(tmp = tmp2; tmp; tmp = tmp->suivant){
+                                if(tmp->valeur->first != nullptr){
+                                        //On ajoute l'arc du sommet actuel vers le sommet fils dans le circuit actuel de la liste
+                                        tmp->valeur->second = new Maillon<Arc>(adjacence->valeur->second,tmp->valeur->second);
 
-                if(adjacence->valeur->first->etiquette == 1)
-                        //Si il est ouvert, c'est que adjacence->second est une arete remontante (= cycle)
-                        //Le sommet adjacence->first est donc le début de ce cycle dans l'ordre de parcour
-                        liste = new liste_circuits(new pair<Sommet*, Maillon<Arc>*>(adjacence->valeur->first, new Maillon<Arc>(adjacence->valeur->second, nullptr)), liste);
-        }
-
-        liste_circuits* tmp = liste;
-        for(;tmp;tmp = tmp->suivant){
-                if(tmp->valeur->first != nullptr){
-                        if(tmp->valeur->first == actuel) tmp->valeur->first = nullptr;
-                        else{
-                                tmp->valeur->second = new Maillon<Arc>(g->getArcParSommets(actuel, tmp->valeur->second->valeur->debut),tmp->valeur->second);
+                                        //Si on est le sommet d'origine (le sommet vers lequel l'arete remontante a été détectée),
+                                        //on met le premier sommet du circuit à null.
+                                        if(tmp->valeur->first == actuel)
+                                                tmp->valeur->first = nullptr;
+                                }
                         }
+                        liste_circuits::concat(liste, tmp2);
                 }
+
+                //Si il est ouvert, c'est que adjacence->second est une arete remontante (= cycle)
+                //Le sommet adjacence->first est donc le début de ce cycle dans l'ordre de parcour
+                if(adjacence->valeur->first->etiquette == 1)
+                        liste = new liste_circuits(
+                                new pair<Sommet*, Maillon<Arc>*>(
+                                        adjacence->valeur->first, //Sommet de début de circuit
+                                        new Maillon<Arc>(adjacence->valeur->second, nullptr)),
+                                liste);
         }
+
+        return liste;
 }
