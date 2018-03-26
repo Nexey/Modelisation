@@ -30,8 +30,7 @@ bool detection_circuit_negatif(Graphe *g, Sommet *depart,int(*valuation)(Arc*)){
 
 
 Maillon<Arc> * Ford(Graphe *g, Sommet *debut, int(*valuation)(Arc*)= &avec_cout_Arc){
-    if(!detection_circuit_negatif(g, debut, valuation))
-        std::cerr << "L'algorithme n'est pas applicable car un circuit negatif est present" << endl;
+   // if(!detection_circuit_negatif(g, debut, valuation))	std::cerr << "L'algorithme n'est pas applicable car un circuit negatif est present" << endl;
 
 	Maillon<Sommet> *lTmp = g->lSommets;
 	Sommet *fin = NULL;
@@ -53,7 +52,7 @@ Maillon<Arc> * Ford(Graphe *g, Sommet *debut, int(*valuation)(Arc*)= &avec_cout_
 
         for(; sommetATraiter; sommetATraiter = sommetATraiter->suivant) {
             adj = g->adjacences(sommetATraiter->valeur);
-            for (; adj; adj->suivant) {
+            for (; adj; adj = adj->suivant) {
                 int coutSommetPlusArc = adj->valeur->first->etiquette + valuation(adj->valeur->second);
                 int coutAModifier = adj->valeur->second->fin->etiquette;
                 if (coutSommetPlusArc < coutAModifier) {
@@ -63,7 +62,7 @@ Maillon<Arc> * Ford(Graphe *g, Sommet *debut, int(*valuation)(Arc*)= &avec_cout_
             }
         }
 
-    }while(prochainSommetATraiter);
+	} while (prochainSommetATraiter != nullptr);
 
 
     Maillon<Arc>* chemin = nullptr;
@@ -76,15 +75,18 @@ Maillon<Arc> * Ford(Graphe *g, Sommet *debut, int(*valuation)(Arc*)= &avec_cout_
     while (actuel != fin){
         adj = g->adjacences(actuel);
         min = INT8_MAX;
-        for (; adj; adj->suivant) {
-            if(adj->valeur->first->etiquette < min){
+        for (; adj; adj = adj->suivant) {
+			if (adj->valeur->first->etiquette < min) {
                 min = adj->valeur->first->etiquette;
-                arcActuel = adj->valeur->second;
             }
+			arcActuel = adj->valeur->second;
         }
-        chemin = new Maillon<Arc>(arcActuel, chemin);
-        actuel = arcActuel->fin;
-    }
+
+		if (arcActuel) {
+			chemin = new Maillon<Arc>(arcActuel, chemin);
+			actuel = arcActuel->fin;
+		}
+	}
 
     return chemin;
 
